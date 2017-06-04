@@ -1,0 +1,41 @@
+{
+  "name": "ts-money",
+  "description": "Typescript port of js-money. Implementation of the Money value object.",
+  "version": "0.0.3",
+  "main": "./build/index.js",
+  "author": {
+    "name": "Mathew Cormier",
+    "email": "mathew.corm@gmail.com"
+  },
+  "keywords": [
+    "money",
+    "javascript",
+    "currency",
+    "typescript"
+  ],
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/macor161/ts-money.git"
+  },
+  "bugs": {
+    "url": "https://github.com/macor161/ts-money/issues"
+  },
+  "dependencies": {
+    "lodash": "4.x.x"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.64",
+    "@types/node": "^7.0.23",
+    "chai": "1.x.x",
+    "mocha": "1.x.x",
+    "typescript": "^2.3.4"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+  }
+}
