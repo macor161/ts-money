@@ -14,7 +14,8 @@
     "typescript"
   ],
   "files": [
-    "lib"
+    "lib",
+    "build"
   ],
   "license": "MIT",
   "repository": {
