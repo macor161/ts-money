@@ -136,3 +136,5 @@ fiveEur.lessThanOrEqual(fiveEur); // return true
 
 [The MIT License](http://opensource.org/licenses/MIT)
 
+[npm-url]: https://npmjs.org/package/ts-money
+[npm-image]: http://img.shields.io/npm/v/ts-money.svg
