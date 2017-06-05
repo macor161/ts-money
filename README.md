@@ -157,6 +157,16 @@ let m3 = new Money(543, Currencies.LTC)
 
 ```
 
+### Case insensitive currencies
+
+Money accepts currencies as case insensitive:
+
+```javascript
+let m1 = new Money(1, 'usd')
+let m2 = new Money(2, 'USD')
+let m3 = new Money(3, 'Usd')
+```
+
 
 ## Tests
 
