@@ -13,16 +13,16 @@ TS Money is a Typescript port of the great [js-money](https://www.npmjs.com/pack
 
 First we need to import the library.
 
-```typescript
+```javascript
 import { Money, Currencies } from 'ts-money'
 ```
 
 or in javascript:
 
 ```javascript
-var JsMoney = require('ts-money')
-var Money = JsMoney.Money
-var Currencies = JsMoney.Currencies
+var TsMoney = require('ts-money')
+var Money = TsMoney.Money
+var Currencies = TsMoney.Currencies
 ```
 
 ### Creating a new instance
@@ -109,10 +109,10 @@ Two objects are equal when they are of the same amount and currency.
 Trying to compare 2 objects with different currencies will throw an Error.
 
 ```javascript
-var fiveEur = new Money(500, Money.EUR);
-var anotherFiveEur = new Money(500, Money.EUR);
-var sevenEur = new Money(700, Money.EUR);
-var fiveDollars = new Money(500, Money.USD);
+var fiveEur = new Money(500, Currencies.EUR);
+var anotherFiveEur = new Money(500, Currencies.EUR);
+var sevenEur = new Money(700, Currencies.EUR);
+var fiveDollars = new Money(500, MoCurrenciesney.USD);
 
 fiveEur.equals(fiveDollars); // return false
 fiveEur.equals(anotherFiveEur); // return true
@@ -138,7 +138,7 @@ Some changes have been made compared with the javascript version:
 
 Currencies are now in a stand-alone object. This has many benefits, like preventing autocomplete "pollution" of the Money class and enabling easy extensibility:
 
-```typescript
+```javascript
 import { Money, Currencies } from 'ts-money'
 
 Currencies.LTC = {
