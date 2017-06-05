@@ -13,10 +13,6 @@
     "currency",
     "typescript"
   ],
-  "files": [
-    "lib",
-    "build"
-  ],
   "license": "MIT",
   "repository": {
     "type": "git",
