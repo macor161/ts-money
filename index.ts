@@ -4,12 +4,12 @@ import { Currencies } from './lib/currencies'
 
 
 
-var isInt = function (n) {
+let isInt = function (n) {
     return Number(n) === n && n % 1 === 0
 }
 
-var decimalPlaces = function (num) {
-    var match = ('' + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/)
+let decimalPlaces = function (num) {
+    let match = ('' + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/)
 
     if (!match)
         return 0
@@ -18,29 +18,29 @@ var decimalPlaces = function (num) {
         (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0))
 }
 
-var assertSameCurrency = function (left, right) {
+let assertSameCurrency = function (left, right) {
     if (left.currency !== right.currency)
         throw new Error('Different currencies')
 }
 
-var assertType = function (other) {
+let assertType = function (other) {
     if (!(other instanceof Money))
         throw new TypeError('Instance of Money required')
 }
 
-var assertOperand = function (operand) {
+let assertOperand = function (operand) {
     if (isNaN(parseFloat(operand)) && !isFinite(operand))
         throw new TypeError('Operand must be a number')
 }
 
-var getCurrencyObject = function (currency: string): Currency {
+let getCurrencyObject = function (currency: string): Currency {
     let currencyObj = Currencies[currency]
 
     if (currencyObj) {
         return currencyObj
     }
     else {
-        for(let key in Currencies) {
+        for (let key in Currencies) {
             if (key.toUpperCase() === currency.toUpperCase())
                 return Currencies[key]
         }
@@ -110,11 +110,11 @@ class Money {
             throw new TypeError('Invalid currency')
 
         if (rounder === undefined) {
-            var decimals = decimalPlaces(amount)
+            let decimals = decimalPlaces(amount)
 
             if (decimals > currency.decimal_digits)
-                throw new Error("The currency " + currency.code + " supports only "
-                    + currency.decimal_digits + " decimal digits")
+                throw new Error(`The currency ${currency.code} supports only` +
+                     ` ${currency.decimal_digits} decimal digits`)
         } else {
             if (['round', 'floor', 'ceil'].indexOf(rounder as string) === -1 && typeof rounder !== 'function')
                 throw new TypeError('Invalid parameter rounder')
@@ -123,8 +123,8 @@ class Money {
                 rounder = Math[rounder]
         }
 
-        var precisionMultiplier = Math.pow(10, currency.decimal_digits)
-        var resultAmount = amount * precisionMultiplier
+        let precisionMultiplier = Math.pow(10, currency.decimal_digits)
+        let resultAmount = amount * precisionMultiplier
 
         if (isFunction(rounder))
             resultAmount = rounder(resultAmount)
@@ -139,7 +139,7 @@ class Money {
      * @returns {Boolean}
      */
     equals(other: Money): boolean {
-        var self = this
+        let self = this
         assertType(other)
 
         return self.amount === other.amount &&
@@ -153,7 +153,7 @@ class Money {
      * @returns {Money}
      */
     add(other: Money): Money {
-        var self = this
+        let self = this
         assertType(other)
         assertSameCurrency(self, other)
 
@@ -167,7 +167,7 @@ class Money {
      * @returns {Money}
      */
     subtract(other: Money): Money {
-        var self = this
+        let self = this
         assertType(other)
         assertSameCurrency(self, other)
 
@@ -186,7 +186,7 @@ class Money {
             fn = Math.round
 
         assertOperand(multiplier)
-        var amount = fn(this.amount * multiplier)
+        let amount = fn(this.amount * multiplier)
 
         return new Money(amount, this.currency)
     }
@@ -203,7 +203,7 @@ class Money {
             fn = Math.round
 
         assertOperand(divisor)
-        var amount = fn(this.amount / divisor)
+        let amount = fn(this.amount / divisor)
 
         return new Money(amount, this.currency)
     }
@@ -215,22 +215,22 @@ class Money {
      * @returns {Array.Money}
      */
     allocate(ratios: any[]): Money[] {
-        var self = this
-        var remainder = self.amount
-        var results = []
-        var total = 0
+        let self = this
+        let remainder = self.amount
+        let results = []
+        let total = 0
 
         ratios.forEach(function (ratio) {
             total += ratio
         })
 
         ratios.forEach(function (ratio) {
-            var share = Math.floor(self.amount * ratio / total)
+            let share = Math.floor(self.amount * ratio / total)
             results.push(new Money(share, self.currency))
             remainder -= share
         })
 
-        for (var i = 0; remainder > 0; i++) {
+        for (let i = 0; remainder > 0; i++) {
             results[i] = new Money(results[i].amount + 1, results[i].currency)
             remainder--
         }
@@ -245,7 +245,7 @@ class Money {
      * @returns {Number}
      */
     compare(other: Money): number {
-        var self = this
+        let self = this
 
         assertType(other)
         assertSameCurrency(self, other)
@@ -338,7 +338,7 @@ class Money {
      * @returns {string}
      */
     toString(): string {
-        var currency = getCurrencyObject(this.currency)
+        let currency = getCurrencyObject(this.currency)
         return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits)
     }
 
