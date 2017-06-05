@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = require("lodash");
 const currency_1 = require("./lib/currency");
+exports.Currencies = currency_1.currencies;
 var isInt = function (n) {
     return Number(n) === n && n % 1 === 0;
 };

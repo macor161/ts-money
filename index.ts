@@ -361,4 +361,4 @@ class Money {
 
 Object.assign(Money, currencies)
 
-export { Money }
+export { Money, currencies as Currencies }

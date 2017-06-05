@@ -1,3 +1,4 @@
+import { currencies } from './lib/currency';
 declare class Money {
     amount: number;
     currency: string;
@@ -12,7 +13,7 @@ declare class Money {
      */
     constructor(amount: number, currency: any | string);
     static fromInteger(amount: number | any, currency?: string): Money;
-    static fromDecimal(amount: number | any, currency: string | any, rounder?: string): Money;
+    static fromDecimal(amount: number | any, currency: string | any, rounder?: string | Function): Money;
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
      *
@@ -144,4 +145,4 @@ declare class Money {
      */
     getCurrency(): string;
 }
-export { Money };
+export { Money, currencies as Currencies };
