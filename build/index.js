@@ -24,6 +24,18 @@ var assertOperand = function (operand) {
     if (lodash_1.isNaN(parseFloat(operand)) && !isFinite(operand))
         throw new TypeError('Operand must be a number');
 };
+var getCurrencyObject = function (currency) {
+    let currencyObj = currencies_1.Currencies[currency];
+    if (currencyObj) {
+        return currencyObj;
+    }
+    else {
+        for (let key in currencies_1.Currencies) {
+            if (key.toUpperCase() === currency.toUpperCase())
+                return currencies_1.Currencies[key];
+        }
+    }
+};
 class Money {
     /**
      * Creates a new Money instance.
@@ -36,7 +48,7 @@ class Money {
      */
     constructor(amount, currency) {
         if (lodash_1.isString(currency))
-            currency = currencies_1.Currencies[currency];
+            currency = getCurrencyObject(currency);
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (!isInt(amount))
@@ -65,7 +77,7 @@ class Money {
             amount = amount.amount;
         }
         if (lodash_1.isString(currency))
-            currency = currencies_1.Currencies[currency];
+            currency = getCurrencyObject(currency);
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (rounder === undefined) {
@@ -263,7 +275,7 @@ class Money {
      * @returns {string}
      */
     toString() {
-        var currency = currencies_1.Currencies[this.currency];
+        var currency = getCurrencyObject(this.currency);
         return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits);
     }
     /**
@@ -297,7 +309,7 @@ class Money {
      * Returns the full currency object
      */
     getCurrencyInfo() {
-        return currencies_1.Currencies[this.currency];
+        return getCurrencyObject(this.currency);
     }
 }
 exports.Money = Money;

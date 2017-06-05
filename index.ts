@@ -33,6 +33,20 @@ var assertOperand = function (operand) {
         throw new TypeError('Operand must be a number')
 }
 
+var getCurrencyObject = function (currency: string): Currency {
+    let currencyObj = Currencies[currency]
+
+    if (currencyObj) {
+        return currencyObj
+    }
+    else {
+        for(let key in Currencies) {
+            if (key.toUpperCase() === currency.toUpperCase())
+                return Currencies[key]
+        }
+    }
+}
+
 
 class Money {
 
@@ -51,7 +65,7 @@ class Money {
      */
     constructor(amount: number, currency: any|string) {
         if (isString(currency))
-            currency = Currencies[currency]
+            currency = getCurrencyObject(currency)
 
         if (!isPlainObject(currency))
             throw new TypeError('Invalid currency')
@@ -90,7 +104,7 @@ class Money {
         }
 
         if (isString(currency))
-            currency = Currencies[currency]
+            currency = getCurrencyObject(currency)
 
         if (!isPlainObject(currency))
             throw new TypeError('Invalid currency')
@@ -324,7 +338,7 @@ class Money {
      * @returns {string}
      */
     toString(): string {
-        var currency = Currencies[this.currency]
+        var currency = getCurrencyObject(this.currency)
         return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits)
     }
 
@@ -363,7 +377,7 @@ class Money {
      * Returns the full currency object
      */
     getCurrencyInfo(): Currency {
-        return Currencies[this.currency]
+        return getCurrencyObject(this.currency)
     }
 
 

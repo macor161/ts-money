@@ -108,6 +108,15 @@ describe('Money', function () {
         }).to.throw(TypeError);
     });
 
+    it('should accept currencies as case insensitive', () => {
+        let m1 = new Money(10, 'usd')
+        let m2 = new Money(10, 'uSd')
+        let m3 = new Money(10, 'USD')
+
+        expect(m1.getCurrency()).to.equal('USD')
+        expect(m2.getCurrency()).to.equal('USD')
+    })
+
     it('should serialize correctly', function() {
         var money = new Money(1042, Money.EUR);
 
