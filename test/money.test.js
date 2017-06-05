@@ -1,4 +1,4 @@
-var Money = require('../build/index').Money;
+var { Money, Currencies } = require('../build/index')
 
 describe('Money', function () {
     it('should create a new instance from integer', function () {
@@ -328,5 +328,27 @@ describe('Money', function () {
         var minBitcoin = new Money(1, 'BTC');
 
         expect(minBitcoin.toDecimal()).to.equal(0.00000001)
-    });
-});
+    })
+})
+
+describe('Currencies', () => {
+    it('should be extansible', function () {
+        Currencies.LTC = {
+            symbol: "Ł",
+            name: "Litecoin",
+            symbol_native: "Ł",
+            decimal_digits: 8,
+            rounding: 0,
+            code: "LTC",
+            name_plural: "Litecoins"    
+        }
+
+        let m1 = new Money(1, 'LTC')
+        let m2 = Money.fromDecimal(1, Currencies.LTC)
+
+
+        expect(m1.currency).to.equal('LTC')
+        expect(m2.currency).to.equal('LTC')
+        expect(m2.amount).to.equal(100000000)
+    })    
+})
