@@ -150,4 +150,4 @@ declare class Money {
      */
     getCurrencyInfo(): Currency;
 }
-export { Money, Currencies };
+export { Money, Currencies, Currency };
