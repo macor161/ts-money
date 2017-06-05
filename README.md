@@ -112,7 +112,7 @@ Trying to compare 2 objects with different currencies will throw an Error.
 var fiveEur = new Money(500, Currencies.EUR);
 var anotherFiveEur = new Money(500, Currencies.EUR);
 var sevenEur = new Money(700, Currencies.EUR);
-var fiveDollars = new Money(500, MoCurrenciesney.USD);
+var fiveDollars = new Money(500, Currencies.USD);
 
 fiveEur.equals(fiveDollars); // return false
 fiveEur.equals(anotherFiveEur); // return true
