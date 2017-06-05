@@ -2,7 +2,8 @@
   "name": "ts-money",
   "description": "Typescript port of js-money. Implementation of the Money value object.",
   "version": "0.1.2",
-  "main": "./build/index.js",
+  "main": "build/index.js",
+  "typings": "build/index.d.ts",  
   "author": {
     "name": "Mathew Cormier",
     "email": "mathew.corm@gmail.com"

@@ -78,7 +78,7 @@ class Money {
         return new Money(amount, currency)
     }
 
-    static fromDecimal(amount: number|any, currency: string|any, rounder?: string): Money {
+    static fromDecimal(amount: number|any, currency: string|any, rounder?: string|Function): Money {
         if (isObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency')
@@ -101,7 +101,7 @@ class Money {
                 throw new Error("The currency " + currency.code + " supports only "
                     + currency.decimal_digits + " decimal digits")
         } else {
-            if (['round', 'floor', 'ceil'].indexOf(rounder) === -1 && typeof rounder !== 'function')
+            if (['round', 'floor', 'ceil'].indexOf(rounder as string) === -1 && typeof rounder !== 'function')
                 throw new TypeError('Invalid parameter rounder')
 
             if (isString(rounder))
