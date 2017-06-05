@@ -23,9 +23,11 @@
     "url": "https://github.com/macor161/ts-money/issues"
   },
   "dependencies": {
+    "bignumber.js": "^4.0.2",
     "lodash": "4.x.x"
   },
   "devDependencies": {
+    "@types/bignumber.js": "^4.0.2",
     "@types/lodash": "^4.14.64",
     "@types/node": "^7.0.23",
     "chai": "1.x.x",
