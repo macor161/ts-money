@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = require("lodash");
-const currency_1 = require("./lib/currency");
-exports.Currencies = currency_1.currencies;
+const currencies_1 = require("./lib/currencies");
+exports.Currencies = currencies_1.Currencies;
 var isInt = function (n) {
     return Number(n) === n && n % 1 === 0;
 };
@@ -36,7 +36,7 @@ class Money {
      */
     constructor(amount, currency) {
         if (lodash_1.isString(currency))
-            currency = currency_1.currencies[currency];
+            currency = currencies_1.Currencies[currency];
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (!isInt(amount))
@@ -65,7 +65,7 @@ class Money {
             amount = amount.amount;
         }
         if (lodash_1.isString(currency))
-            currency = currency_1.currencies[currency];
+            currency = currencies_1.Currencies[currency];
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (rounder === undefined) {
@@ -263,7 +263,7 @@ class Money {
      * @returns {string}
      */
     toString() {
-        var currency = currency_1.currencies[this.currency];
+        var currency = currencies_1.Currencies[this.currency];
         return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits);
     }
     /**
@@ -293,6 +293,12 @@ class Money {
     getCurrency() {
         return this.currency;
     }
+    /**
+     * Returns the full currency object
+     */
+    getCurrencyInfo() {
+        return currencies_1.Currencies[this.currency];
+    }
 }
 exports.Money = Money;
-Object.assign(Money, currency_1.currencies);
+Object.assign(Money, currencies_1.Currencies);

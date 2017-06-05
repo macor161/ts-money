@@ -1,5 +1,6 @@
 import { extend, isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
-import { currencies } from './lib/currency'
+import { Currency } from './lib/currency'
+import { Currencies } from './lib/currencies'
 
 
 
@@ -50,7 +51,7 @@ class Money {
      */
     constructor(amount: number, currency: any|string) {
         if (isString(currency))
-            currency = currencies[currency]
+            currency = Currencies[currency]
 
         if (!isPlainObject(currency))
             throw new TypeError('Invalid currency')
@@ -89,7 +90,7 @@ class Money {
         }
 
         if (isString(currency))
-            currency = currencies[currency]
+            currency = Currencies[currency]
 
         if (!isPlainObject(currency))
             throw new TypeError('Invalid currency')
@@ -323,7 +324,7 @@ class Money {
      * @returns {string}
      */
     toString(): string {
-        var currency = currencies[this.currency]
+        var currency = Currencies[this.currency]
         return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits)
     }
 
@@ -348,6 +349,7 @@ class Money {
         return this.amount
     }
 
+
     /**
      * Returns the currency represented by this object.
      *
@@ -357,8 +359,16 @@ class Money {
         return this.currency
     }
 
+    /**
+     * Returns the full currency object
+     */
+    getCurrencyInfo(): Currency {
+        return Currencies[this.currency]
+    }
+
+
 }
 
-Object.assign(Money, currencies)
+Object.assign(Money, Currencies)
 
-export { Money, currencies as Currencies }
+export { Money, Currencies }

@@ -1,4 +1,5 @@
-import { currencies } from './lib/currency';
+import { Currency } from './lib/currency';
+import { Currencies } from './lib/currencies';
 declare class Money {
     amount: number;
     currency: string;
@@ -144,5 +145,9 @@ declare class Money {
      * @returns {string}
      */
     getCurrency(): string;
+    /**
+     * Returns the full currency object
+     */
+    getCurrencyInfo(): Currency;
 }
-export { Money, currencies as Currencies };
+export { Money, Currencies };
