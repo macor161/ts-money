@@ -276,6 +276,12 @@ describe('Money', function () {
         expect(subject.getCurrency()).to.equal('EUR');
     });
 
+    it('should return the right currency info', () => {
+        var subject = new Money(1000, 'EUR')
+
+        expect(subject.getCurrencyInfo()).to.equal(Currencies.EUR)
+    })    
+
     it('should convert from decimal per currency', function () {
         var euro = Money.fromDecimal(123.45, 'EUR');
         var forint = Money.fromDecimal(123.45, 'HUF');
