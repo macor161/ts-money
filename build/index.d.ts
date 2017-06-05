@@ -1,8 +1,10 @@
 import { Currency } from './lib/currency';
 import { Currencies } from './lib/currencies';
+import * as BigNumber from 'bignumber.js';
 declare class Money {
     amount: number;
     currency: string;
+    bigAmount: BigNumber.BigNumber;
     /**
      * Creates a new Money instance.
      * The created Money instances is a value object thus it is immutable.

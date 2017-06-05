@@ -1,6 +1,7 @@
 import { extend, isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
 import { Currency } from './lib/currency'
 import { Currencies } from './lib/currencies'
+import * as BigNumber from 'bignumber.js'
 
 
 
@@ -38,6 +39,7 @@ class Money {
 
     amount: number
     currency: string
+    bigAmount: BigNumber.BigNumber
 
 
     /**
