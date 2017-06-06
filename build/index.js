@@ -215,42 +215,35 @@ class Money {
     /**
      * Returns the decimal value as a float.
      *
-     * @returns {number}
+     * WARNING: Does not support large numbers
      */
     toDecimal() {
         return Number(this.toString());
     }
     /**
      * Returns the decimal value as a string.
-     *
-     * @returns {string}
      */
     toString() {
         return this.bigAmount.toFixed(this.getCurrencyInfo().decimal_digits);
     }
     /**
      * Returns a serialised version of the instance.
-     *
-     * @returns {{amount: number, currency: string}}
      */
     toJSON() {
         return {
-            amount: this.amount,
+            bigAmount: this.bigAmount.toString(),
             currency: this.currency
         };
     }
     /**
      * Returns the amount represented by this object.
-     *
-     * @returns {number}
+     * @deprecated
      */
     getAmount() {
         return this.amount;
     }
     /**
      * Returns the currency represented by this object.
-     *
-     * @returns {string}
      */
     getCurrency() {
         return this.currency;
@@ -259,7 +252,6 @@ class Money {
      * Returns the full currency object
      */
     getCurrencyInfo() {
-        BigNumber.ROUND_CEIL;
         return getCurrencyObject(this.currency);
     }
 }

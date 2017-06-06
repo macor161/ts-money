@@ -73,34 +73,27 @@ declare class Money {
     /**
      * Returns the decimal value as a float.
      *
-     * @returns {number}
+     * WARNING: Does not support large numbers
      */
     toDecimal(): number;
     /**
      * Returns the decimal value as a string.
-     *
-     * @returns {string}
      */
     toString(): string;
     /**
      * Returns a serialised version of the instance.
-     *
-     * @returns {{amount: number, currency: string}}
      */
     toJSON(): {
-        amount: number;
+        bigAmount: string;
         currency: string;
     };
     /**
      * Returns the amount represented by this object.
-     *
-     * @returns {number}
+     * @deprecated
      */
     getAmount(): number;
     /**
      * Returns the currency represented by this object.
-     *
-     * @returns {string}
      */
     getCurrency(): string;
     /**
