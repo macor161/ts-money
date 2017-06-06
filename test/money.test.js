@@ -53,7 +53,7 @@ describe('Money', function () {
         let money2 = Money.fromDecimal(10.0101, Currencies.EUR, Rounding.ROUND_CEIL)
         let money3 = Money.fromDecimal(10.0199, Currencies.EUR, Rounding.ROUND_CEIL)
         let money4 = Money.fromDecimal(10.0199, Currencies.EUR, Rounding.ROUND_FLOOR)
-        let money5 = Money.fromDecimal(10.0199, Currencies.EUR, Rounding.ROUND_HALF_CEIL)
+        let money5 = Money.fromDecimal(10.0199, Currencies.EUR, Rounding.ROUND_HALF_UP)
 
 
         expect(money.amount).to.equal(1001)
@@ -362,7 +362,7 @@ describe('Money', function () {
         expect(bitcoin.toDecimal()).to.equal(0.00012345)
     })
 
-    it('should convert from decimal when using less than maximum decimal digits', function () {
+    it('should convert from decimal when using less than maximum decimal digits', () => {
         var euro = Money.fromDecimal(123, 'EUR')
         var forint = Money.fromDecimal(123.4, 'HUF')
         var dinar = Money.fromDecimal(12.3, 'BHD')
@@ -374,7 +374,7 @@ describe('Money', function () {
         expect(bitcoin.amount).to.equal(12500)
     })
 
-    it('should convert maximum available value to decimal for currencies with many positions', function () {
+    it('should convert maximum available value to decimal for currencies with many positions', () => {
         var almostMaxBitcoin = new Money(2099999999999999, 'BTC')
         var maxBitcoin = new Money(2100000000000000, 'BTC')
 
@@ -382,10 +382,28 @@ describe('Money', function () {
         expect(maxBitcoin.toDecimal()).to.equal(21000000.0)
     })
 
-    it('should convert minimum available value to decimal for currencies with many positions', function () {
+    it('should convert minimum available value to decimal for currencies with many positions', () => {
         var minBitcoin = new Money(1, 'BTC')
 
         expect(minBitcoin.toDecimal()).to.equal(0.00000001)
+    })
+
+    it('should handle large numbers', () => {
+        Currencies.LDC = {
+            symbol: "Ldc",
+            name: "Large digits currency",
+            symbol_native: "Ldc",
+            decimal_digits: 24,
+            rounding: 0,
+            code: "LDC",
+            name_plural: "Ldcs"    
+        }
+
+        let a1 = Money.fromStringDecimal('2.000000000000000000000001', 'LDC')    
+        let a2 = a1.add(Money.fromStringDecimal('0.000000000000000000000001', 'LDC'))
+
+        expect(a1.toString()).to.equal('2.000000000000000000000001')
+        expect(a2.toString()).to.equal('2.000000000000000000000002')
     })
 
 })

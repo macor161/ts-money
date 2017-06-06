@@ -6,6 +6,7 @@ exports.Currencies = currencies_1.Currencies;
 const rounding_1 = require("./lib/rounding");
 exports.Rounding = rounding_1.Rounding;
 const BigNumber = require("bignumber.js");
+BigNumber.config({ DECIMAL_PLACES: 30, ROUNDING_MODE: rounding_1.Rounding.ROUND_HALF_UP });
 let isInt = function (n) {
     return Number(n) === n && n % 1 === 0;
 };

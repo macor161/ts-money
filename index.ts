@@ -3,7 +3,7 @@ import { Currency } from './lib/currency'
 import { Currencies } from './lib/currencies'
 import { Rounding, RoundingMode } from './lib/rounding'
 import * as BigNumber from 'bignumber.js'
-
+BigNumber.config({ DECIMAL_PLACES: 30, ROUNDING_MODE: Rounding.ROUND_HALF_UP })
 
 
 let isInt = function (n) {
@@ -74,7 +74,7 @@ class Money {
         this.currency = currency.code
         this.decimalAmount = new BigNumber(amount).dividedBy(10 ** currency.decimal_digits)   
         this.amount = isInt(amount) ? amount as number : parseInt(amount as string)
-        
+
         Object.freeze(this)
     }
 
