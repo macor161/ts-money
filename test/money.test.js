@@ -18,14 +18,14 @@ describe('Money', function () {
 
     it('should not create a new instance from decimal', function () {
         expect(function () {
-            new Money(10.42, Money.EUR);
+            new Money(10.42, Currencies.EUR);
         }).to.throw(TypeError);
     });
 
     it('should create a new instance from decimal using `.fromDecimal()`', function () {
-        var money = Money.fromDecimal(10.01, Money.EUR);
-        var money1 = Money.fromDecimal(10.1, Money.EUR);
-        var money2 = Money.fromDecimal(10, Money.EUR);
+        var money = Money.fromDecimal(10.01, Currencies.EUR);
+        var money1 = Money.fromDecimal(10.1, Currencies.EUR);
+        var money2 = Money.fromDecimal(10, Currencies.EUR);
 
         expect(money.amount).to.equal(1001);
         expect(money.currency).to.equal('EUR');
@@ -34,8 +34,8 @@ describe('Money', function () {
     });
 
     it('should create a new instance from decimal string using `.fromDecimal()`', function () {
-        var money = Money.fromDecimal('10.01', Money.EUR);
-        var money1 = Money.fromDecimal('10', Money.EUR);
+        var money = Money.fromDecimal('10.01', Currencies.EUR);
+        var money1 = Money.fromDecimal('10', Currencies.EUR);
 
         expect(money.amount).to.equal(1001);
         expect(money1.amount).to.equal(1000);
@@ -43,18 +43,18 @@ describe('Money', function () {
 
     it('should not create a new instance from decimal using `.fromDecimal()` if too many decimal places', function () {
         expect(function () {
-            Money.fromDecimal(10.421, Money.EUR);
+            Money.fromDecimal(10.421, Currencies.EUR);
         }).to.throw(Error);
     });
 
     it('should create a new instance from decimal using `.fromDecimal()` even if too many decimal places if rounder function provided', function () {
-        var money = Money.fromDecimal(10.01, Money.EUR, 'ceil');
+        var money = Money.fromDecimal(10.01, Currencies.EUR, 'ceil');
         var money1 = Money.fromDecimal({amount: 10.01, currency: 'EUR'}, Math.ceil);
-        var money2 = Money.fromDecimal(10.0101, Money.EUR, Math.ceil);
-        var money3 = Money.fromDecimal(10.0199, Money.EUR, Math.ceil);
-        var money4 = Money.fromDecimal(10.0199, Money.EUR, Math.floor);
-        var money5 = Money.fromDecimal(10.0199, Money.EUR, Math.round);
-        var money6 = Money.fromDecimal(10.0199, Money.EUR, function (amount) {
+        var money2 = Money.fromDecimal(10.0101, Currencies.EUR, Math.ceil);
+        var money3 = Money.fromDecimal(10.0199, Currencies.EUR, Math.ceil);
+        var money4 = Money.fromDecimal(10.0199, Currencies.EUR, Math.floor);
+        var money5 = Money.fromDecimal(10.0199, Currencies.EUR, Math.round);
+        var money6 = Money.fromDecimal(10.0199, Currencies.EUR, function (amount) {
             return Math.round(amount)
         });
 
@@ -83,14 +83,14 @@ describe('Money', function () {
     });
 
     it('should create a new instance from integer', function () {
-        var money = Money.fromInteger(1151,Money.EUR);
+        var money = Money.fromInteger(1151,Currencies.EUR);
 
         expect(money.amount).to.equal(1151);
         expect(money.currency).to.equal('EUR');
     });
 
     it('should create a new instance from zero integer', function () {
-        var money = Money.fromInteger(0,Money.EUR);
+        var money = Money.fromInteger(0,Currencies.EUR);
 
         expect(money.amount).to.equal(0);
         expect(money.currency).to.equal('EUR');
@@ -104,7 +104,7 @@ describe('Money', function () {
     });
 
     it('should create a new instance from object with currenct object', function () {
-        var money = Money.fromDecimal({amount: 11.51, currency: Money.EUR});
+        var money = Money.fromDecimal({amount: 11.51, currency: Currencies.EUR});
 
         expect(money.amount).to.equal(1151);
         expect(money.currency).to.equal('EUR');
@@ -126,7 +126,7 @@ describe('Money', function () {
     })
 
     it('should serialize correctly', function() {
-        var money = new Money(1042, Money.EUR);
+        var money = new Money(1042, Currencies.EUR);
 
         expect(money.amount).to.be.a.number;
         expect(money.currency).to.be.a.string;
@@ -134,13 +134,13 @@ describe('Money', function () {
 
     it('should check for decimal precision', function() {
         expect(function() {
-            new Money(10.423456, Money.EUR)
+            new Money(10.423456, Currencies.EUR)
         }).to.throw(Error);
     });
 
     it('should add same currencies', () => {
-        var first = new Money(1000, Money.EUR)
-        var second = new Money(500, Money.EUR)
+        var first = new Money(1000, Currencies.EUR)
+        var second = new Money(500, Currencies.EUR)
 
         var result = first.add(second)
 
@@ -155,23 +155,23 @@ describe('Money', function () {
     })
 
     it('should not add different currencies', function () {
-        var first = new Money(1000, Money.EUR);
-        var second = new Money(500, Money.USD);
+        var first = new Money(1000, Currencies.EUR);
+        var second = new Money(500, Currencies.USD);
 
         expect(first.add.bind(first, second)).to.throw(Error);
     });
 
     it('should check for same type', function () {
-        var first = new Money(1000, Money.EUR);
+        var first = new Money(1000, Currencies.EUR);
 
         expect(first.add.bind(first, {})).to.throw(TypeError);
     });
 
     it('should check if equal', function () {
-        var first = new Money(1000, Money.EUR);
-        var second = new Money(1000, Money.EUR);
-        var third = new Money(1000, Money.USD);
-        var fourth = new Money(100, Money.EUR);
+        var first = new Money(1000, Currencies.EUR);
+        var second = new Money(1000, Currencies.EUR);
+        var third = new Money(1000, Currencies.USD);
+        var fourth = new Money(100, Currencies.EUR);
 
         expect(first.equals(second)).to.equal(true);
         expect(first.equals(third)).to.equal(false);
@@ -179,43 +179,43 @@ describe('Money', function () {
     });
 
     it('should compare correctly', function () {
-        var subject = new Money(1000, Money.EUR);
+        var subject = new Money(1000, Currencies.EUR);
 
-        expect(subject.compare(new Money(1500, Money.EUR))).to.equal(-1);
-        expect(subject.compare(new Money(500, Money.EUR))).to.equal(1);
-        expect(subject.compare(new Money(1000, Money.EUR))).to.equal(0);
+        expect(subject.compare(new Money(1500, Currencies.EUR))).to.equal(-1);
+        expect(subject.compare(new Money(500, Currencies.EUR))).to.equal(1);
+        expect(subject.compare(new Money(1000, Currencies.EUR))).to.equal(0);
 
         expect(function () {
-            subject.compare(new Money(1500, Money.USD));
+            subject.compare(new Money(1500, Currencies.USD));
         }).to.throw(Error, 'Different currencies');
 
-        expect(subject.greaterThan(new Money(1500, Money.EUR))).to.equal(false);
-        expect(subject.greaterThan(new Money(500, Money.EUR))).to.equal(true);
-        expect(subject.greaterThan(new Money(1000, Money.EUR))).to.equal(false);
+        expect(subject.greaterThan(new Money(1500, Currencies.EUR))).to.equal(false);
+        expect(subject.greaterThan(new Money(500, Currencies.EUR))).to.equal(true);
+        expect(subject.greaterThan(new Money(1000, Currencies.EUR))).to.equal(false);
 
-        expect(subject.greaterThanOrEqual(new Money(1500, Money.EUR))).to.equal(false);
-        expect(subject.greaterThanOrEqual(new Money(500, Money.EUR))).to.equal(true);
-        expect(subject.greaterThanOrEqual(new Money(1000, Money.EUR))).to.equal(true);
+        expect(subject.greaterThanOrEqual(new Money(1500, Currencies.EUR))).to.equal(false);
+        expect(subject.greaterThanOrEqual(new Money(500, Currencies.EUR))).to.equal(true);
+        expect(subject.greaterThanOrEqual(new Money(1000, Currencies.EUR))).to.equal(true);
 
-        expect(subject.lessThan(new Money(1500, Money.EUR))).to.equal(true);
-        expect(subject.lessThan(new Money(500, Money.EUR))).to.equal(false);
-        expect(subject.lessThan(new Money(1000, Money.EUR))).to.equal(false);
+        expect(subject.lessThan(new Money(1500, Currencies.EUR))).to.equal(true);
+        expect(subject.lessThan(new Money(500, Currencies.EUR))).to.equal(false);
+        expect(subject.lessThan(new Money(1000, Currencies.EUR))).to.equal(false);
 
-        expect(subject.lessThanOrEqual(new Money(1500, Money.EUR))).to.equal(true);
-        expect(subject.lessThanOrEqual(new Money(500, Money.EUR))).to.equal(false);
-        expect(subject.lessThanOrEqual(new Money(1000, Money.EUR))).to.equal(true);
+        expect(subject.lessThanOrEqual(new Money(1500, Currencies.EUR))).to.equal(true);
+        expect(subject.lessThanOrEqual(new Money(500, Currencies.EUR))).to.equal(false);
+        expect(subject.lessThanOrEqual(new Money(1000, Currencies.EUR))).to.equal(true);
     });
 
     it('should subtract same currencies correctly', function() {
-        var subject = new Money(1000, Money.EUR);
-        var result = subject.subtract(new Money(250, Money.EUR));
+        var subject = new Money(1000, Currencies.EUR);
+        var result = subject.subtract(new Money(250, Currencies.EUR));
 
         expect(result.amount).to.equal(750);
         expect(result.currency).to.equal('EUR');
     });
 
     it('should multiply correctly', function() {
-        var subject = new Money(1000, Money.EUR);
+        var subject = new Money(1000, Currencies.EUR);
 
         expect(subject.multiply(1.2234).amount).to.equal(1223);
         expect(subject.multiply(1.2234, Math.ceil).amount).to.equal(1224);
@@ -223,7 +223,7 @@ describe('Money', function () {
     });
 
     it('should divide correctly', function() {
-        var subject = new Money(1000, Money.EUR);
+        var subject = new Money(1000, Currencies.EUR);
 
         expect(subject.divide(2.234).amount).to.equal(448);
         expect(subject.divide(2.234, Math.ceil).amount).to.equal(448);
@@ -231,7 +231,7 @@ describe('Money', function () {
     });
 
     it('should allocate correctly', function() {
-       var subject = new Money(1000, Money.EUR);
+       var subject = new Money(1000, Currencies.EUR);
        var results = subject.allocate([1,1,1]);
 
        expect(results.length).to.equal(3);
