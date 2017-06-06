@@ -48,7 +48,7 @@ class Money {
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (!isInt(amount) && !lodash_1.isString(amount))
-            throw new TypeError('Amount must be an integer');
+            throw new TypeError('Amount must be a string or an integer');
         this.currency = currency.code;
         this.bigAmount = new BigNumber(amount).dividedBy(Math.pow(10, currency.decimal_digits));
         this.amount = isInt(amount) ? amount : parseInt(amount);
@@ -64,6 +64,9 @@ class Money {
         if (!isInt(amount))
             throw new TypeError('Amount must be an integer value');
         return new Money(amount, currency);
+    }
+    static fromStringDecimal(amount, currency, rounder) {
+        throw ('Not implemented');
     }
     static fromDecimal(amount, currency, rounder) {
         if (lodash_1.isObject(amount)) {
@@ -97,27 +100,19 @@ class Money {
     }
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
-     *
-     * @param {Money} other
-     * @returns {Boolean}
      */
     equals(other) {
-        let self = this;
         assertType(other);
-        return self.amount === other.amount &&
-            self.currency === other.currency;
+        return this.bigAmount.equals(other.bigAmount) &&
+            this.currency === other.currency;
     }
     /**
      * Adds the two objects together creating a new Money instance that holds the result of the operation.
-     *
-     * @param {Money} other
-     * @returns {Money}
      */
     add(other) {
-        let self = this;
         assertType(other);
-        assertSameCurrency(self, other);
-        return new Money(self.amount + other.amount, self.currency);
+        assertSameCurrency(this, other);
+        return new Money(this.bigAmount.add(other.bigAmount).mul(Math.pow(10, this.getCurrencyInfo().decimal_digits)).toString(), this.currency);
     }
     /**
      * Subtracts the two objects creating a new Money instance that holds the result of the operation.

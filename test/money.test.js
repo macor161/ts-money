@@ -138,18 +138,21 @@ describe('Money', function () {
         }).to.throw(Error);
     });
 
-    it('should add same currencies', function () {
-        var first = new Money(1000, Money.EUR);
-        var second = new Money(500, Money.EUR);
+    it('should add same currencies', () => {
+        var first = new Money(1000, Money.EUR)
+        var second = new Money(500, Money.EUR)
 
-        var result = first.add(second);
+        var result = first.add(second)
 
-        expect(result.amount).to.equal(1500);
-        expect(result.currency).to.equal('EUR');
-
-        expect(first.amount).to.equal(1000);
-        expect(second.amount).to.equal(500);
-    });
+        expect(result.amount).to.equal(1500)
+        expect(result.bigAmount.equals(15)).to.be.true
+        expect(result.currency).to.equal('EUR')
+        
+        expect(first.amount).to.equal(1000)
+        expect(first.bigAmount.equals(10)).to.be.true
+        expect(second.amount).to.equal(500)
+        expect(second.bigAmount.equals(5)).to.be.true
+    })
 
     it('should not add different currencies', function () {
         var first = new Money(1000, Money.EUR);

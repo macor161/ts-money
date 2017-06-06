@@ -91,6 +91,10 @@ class Money {
 
         return new Money(amount, currency)
     }
+    
+    static fromStringDecimal(amount: string, currency: string, rounder?: string): Money {
+        throw('Not implemented')
+    }
 
     static fromDecimal(amount: number|any, currency: string|any, rounder?: string|Function): Money {
         if (isObject(amount)) {
@@ -143,16 +147,12 @@ class Money {
 
     /**
      * Adds the two objects together creating a new Money instance that holds the result of the operation.
-     *
-     * @param {Money} other
-     * @returns {Money}
      */
     add(other: Money): Money {
-        let self = this
         assertType(other)
-        assertSameCurrency(self, other)
+        assertSameCurrency(this, other)
 
-        return new Money(self.amount + other.amount, self.currency)
+        return new Money(this.bigAmount.add(other.bigAmount).mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
     }
 
     /**

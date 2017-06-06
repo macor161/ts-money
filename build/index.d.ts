@@ -11,19 +11,14 @@ declare class Money {
      */
     constructor(amount: number | string, currency: Currency | string);
     static fromInteger(amount: number | any, currency?: string): Money;
+    static fromStringDecimal(amount: string, currency: string, rounder?: string): Money;
     static fromDecimal(amount: number | any, currency: string | any, rounder?: string | Function): Money;
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
-     *
-     * @param {Money} other
-     * @returns {Boolean}
      */
     equals(other: Money): boolean;
     /**
      * Adds the two objects together creating a new Money instance that holds the result of the operation.
-     *
-     * @param {Money} other
-     * @returns {Money}
      */
     add(other: Money): Money;
     /**
