@@ -190,24 +190,24 @@ class Money {
      * Allocates fund bases on the ratios provided returing an array of objects as a product of the allocation.
      */
     allocate(ratios: any[]): Money[] {
-        let self = this
-        let remainder = self.amount
+        let remainder = this.bigAmount
         let results = []
         let total = 0
+        let decimals = this.getCurrencyInfo().decimal_digits
 
-        ratios.forEach(function (ratio) {
+        ratios.forEach(ratio => {
             total += ratio
         })
 
-        ratios.forEach(function (ratio) {
-            let share = Math.floor(self.amount * ratio / total)
-            results.push(new Money(share, self.currency))
-            remainder -= share
+        ratios.forEach(ratio => {
+            let share = this.bigAmount.mul((ratio / total).toString()).round(decimals, Rounding.ROUND_FLOOR)
+            results.push(new Money(share.mul(10 ** decimals).toString(), this.currency))
+            remainder = remainder.sub(share)
         })
 
-        for (let i = 0; remainder > 0; i++) {
-            results[i] = new Money(results[i].amount + 1, results[i].currency)
-            remainder--
+        for (let i = 0; remainder.greaterThan(0); i++) {
+            results[i] = new Money(results[i].bigAmount.add(1 / (10 ** decimals)).mul(10 ** decimals).toString(), results[i].currency)
+            remainder = remainder.sub(1 / (10 ** decimals))
         }
 
         return results

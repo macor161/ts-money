@@ -236,22 +236,28 @@ describe('Money', function () {
         let d3 = subject.divide(2.234, Rounding.ROUND_FLOOR)
 
         expect(d1.amount).to.equal(448)
+        expect(d1.bigAmount.equals(4.48)).to.be.true
         expect(d2.amount).to.equal(448)
+        expect(d2.bigAmount.equals(4.48)).to.be.true
         expect(d3.amount).to.equal(447)
+        expect(d3.bigAmount.equals(4.47)).to.be.true
     })
 
-    it('should allocate correctly', function() {
-       var subject = new Money(1000, Currencies.EUR);
-       var results = subject.allocate([1,1,1]);
+    it('should allocate correctly', () => {
+       var subject = new Money(1000, Currencies.EUR)
+       var results = subject.allocate([1,1,1])
 
-       expect(results.length).to.equal(3);
-       expect(results[0].amount).to.equal(334);
-       expect(results[0].currency).to.equal('EUR');
-       expect(results[1].amount).to.equal(333);
-       expect(results[1].currency).to.equal('EUR');
-       expect(results[2].amount).to.equal(333);
-       expect(results[2].currency).to.equal('EUR');
-    });
+       expect(results.length).to.equal(3)
+       expect(results[0].amount).to.equal(334)
+       expect(results[0].bigAmount.equals(3.34)).to.be.true
+       expect(results[0].currency).to.equal('EUR')
+       expect(results[1].amount).to.equal(333)
+       expect(results[1].bigAmount.equals(3.33)).to.be.true
+       expect(results[1].currency).to.equal('EUR')
+       expect(results[2].amount).to.equal(333)
+       expect(results[2].bigAmount.equals(3.33)).to.be.true
+       expect(results[2].currency).to.equal('EUR')
+    })
 
     it('zero check works correctly', function() {
         var subject = new Money(1000, 'EUR');
