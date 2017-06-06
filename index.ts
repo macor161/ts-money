@@ -68,7 +68,7 @@ class Money {
             throw new TypeError('Invalid currency')
 
         if (!isInt(amount) && !isString(amount))
-            throw new TypeError('Amount must be an integer')
+            throw new TypeError('Amount must be a string or an integer')
 
         this.currency = currency.code
         this.bigAmount = new BigNumber(amount).dividedBy(10 ** currency.decimal_digits)   
@@ -133,16 +133,12 @@ class Money {
 
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
-     *
-     * @param {Money} other
-     * @returns {Boolean}
      */
     equals(other: Money): boolean {
-        let self = this
         assertType(other)
 
-        return self.amount === other.amount &&
-                self.currency === other.currency
+        return this.bigAmount.equals(other.bigAmount) &&
+                this.currency === other.currency
     }
 
     /**
