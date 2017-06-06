@@ -5,7 +5,7 @@ import * as BigNumber from 'bignumber.js';
 declare class Money {
     amount: number;
     currency: string;
-    bigAmount: BigNumber.BigNumber;
+    decimalAmount: BigNumber.BigNumber;
     /**
      * Creates a new Money instance.
      * The created Money instances is a value object thus it is immutable.
@@ -93,7 +93,7 @@ declare class Money {
      * Returns a serialised version of the instance.
      */
     toJSON(): {
-        bigAmount: string;
+        decimalAmount: string;
         currency: string;
     };
     /**

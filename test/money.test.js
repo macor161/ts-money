@@ -1,17 +1,18 @@
 var { Money, Currencies, Rounding } = require('../build/index')
 
 describe('Money', function () {
-    it('should create a new instance from integer', function () {
-        var money = new Money(1000, Currencies.EUR);
+    it('should create a new instance from integer', () => {
+        var money = new Money(1000, Currencies.EUR)
 
-        expect(money.amount).to.equal(1000);
-        expect(money.currency).to.equal('EUR');
-    });
+        expect(money.amount).to.equal(1000)
+        expect(money.decimalAmount.equals(10.00)).to.be.true
+        expect(money.currency).to.equal('EUR')
+    })
 
     it('should create a new instance from string', () => {
         var money = new Money('1001',  Currencies.EUR)
 
-        expect(money.bigAmount.toString()).to.equal('10.01')
+        expect(money.decimalAmount.toString()).to.equal('10.01')
         expect(money.currency).to.equal('EUR')
     })    
 
@@ -141,13 +142,13 @@ describe('Money', function () {
         var result = first.add(second)
 
         expect(result.amount).to.equal(1500)
-        expect(result.bigAmount.equals(15)).to.be.true
+        expect(result.decimalAmount.equals(15)).to.be.true
         expect(result.currency).to.equal('EUR')
         
         expect(first.amount).to.equal(1000)
-        expect(first.bigAmount.equals(10)).to.be.true
+        expect(first.decimalAmount.equals(10)).to.be.true
         expect(second.amount).to.equal(500)
-        expect(second.bigAmount.equals(5)).to.be.true
+        expect(second.decimalAmount.equals(5)).to.be.true
     })
 
     it('should not add different currencies', () => {
@@ -207,7 +208,7 @@ describe('Money', function () {
         var result = subject.subtract(new Money(250, Currencies.EUR))
 
         expect(result.amount).to.equal(750)
-        expect(result.bigAmount.equals(7.50)).to.be.true
+        expect(result.decimalAmount.equals(7.50)).to.be.true
         expect(result.currency).to.equal('EUR')
     })
 
@@ -218,11 +219,11 @@ describe('Money', function () {
         let m3 = subject.multiply(1.2234, Rounding.ROUND_FLOOR)
 
         expect(m1.amount).to.equal(1223)
-        expect(m1.bigAmount.equals(12.23)).to.be.true
+        expect(m1.decimalAmount.equals(12.23)).to.be.true
         expect(m2.amount).to.equal(1224)
-        expect(m2.bigAmount.equals(12.24)).to.be.true
+        expect(m2.decimalAmount.equals(12.24)).to.be.true
         expect(m3.amount).to.equal(1223)
-        expect(m3.bigAmount.equals(12.23)).to.be.true
+        expect(m3.decimalAmount.equals(12.23)).to.be.true
     })
 
     it('should divide correctly', () => {
@@ -232,11 +233,11 @@ describe('Money', function () {
         let d3 = subject.divide(2.234, Rounding.ROUND_FLOOR)
 
         expect(d1.amount).to.equal(448)
-        expect(d1.bigAmount.equals(4.48)).to.be.true
+        expect(d1.decimalAmount.equals(4.48)).to.be.true
         expect(d2.amount).to.equal(448)
-        expect(d2.bigAmount.equals(4.48)).to.be.true
+        expect(d2.decimalAmount.equals(4.48)).to.be.true
         expect(d3.amount).to.equal(447)
-        expect(d3.bigAmount.equals(4.47)).to.be.true
+        expect(d3.decimalAmount.equals(4.47)).to.be.true
     })
 
     it('should allocate correctly', () => {
@@ -245,13 +246,13 @@ describe('Money', function () {
 
        expect(results.length).to.equal(3)
        expect(results[0].amount).to.equal(334)
-       expect(results[0].bigAmount.equals(3.34)).to.be.true
+       expect(results[0].decimalAmount.equals(3.34)).to.be.true
        expect(results[0].currency).to.equal('EUR')
        expect(results[1].amount).to.equal(333)
-       expect(results[1].bigAmount.equals(3.33)).to.be.true
+       expect(results[1].decimalAmount.equals(3.33)).to.be.true
        expect(results[1].currency).to.equal('EUR')
        expect(results[2].amount).to.equal(333)
-       expect(results[2].bigAmount.equals(3.33)).to.be.true
+       expect(results[2].decimalAmount.equals(3.33)).to.be.true
        expect(results[2].currency).to.equal('EUR')
     })
 
@@ -279,26 +280,26 @@ describe('Money', function () {
         expect(subject1.isNegative()).to.be.true
     })
 
-    it('should allow to extract the amount as a decimal', function () {
-        var subject = new Money(1000, 'EUR');
-        var subject1 = new Money(1010, 'EUR');
-        var subject2 = Money.fromDecimal(10.01, 'EUR');
+    it('should allow to extract the amount as a decimal', () => {
+        let subject = new Money(1000, 'EUR')
+        let subject1 = new Money(1010, 'EUR')
+        let subject2 = Money.fromDecimal(10.01, 'EUR')
 
-        expect(subject.toDecimal()).to.equal(10);
-        expect(subject1.toDecimal()).to.equal(10.1);
-        expect(subject2.toDecimal()).to.equal(10.01);
-    });
-
-    it('should allow to be concatenated with a string', function () {
-        var subject = new Money(1000, 'EUR');
-
-        expect('' + subject).to.equal('10.00');
+        expect(subject.toDecimal()).to.equal(10)
+        expect(subject1.toDecimal()).to.equal(10.1)
+        expect(subject2.toDecimal()).to.equal(10.01)
     })
 
-    it('should allow to be stringified as JSON', function () {
-        var subject = new Money(1000, 'EUR');
+    it('should allow to be concatenated with a string', () => {
+        var subject = new Money(1000, 'EUR')
 
-        expect(JSON.stringify({ foo: subject })).to.equal('{"foo":{"bigAmount":"10","currency":"EUR"}}');
+        expect('' + subject).to.equal('10.00')
+    })
+
+    it('should allow to be stringified as JSON', () => {
+        var subject = new Money(1000, 'EUR')
+
+        expect(JSON.stringify({ foo: subject })).to.equal('{"foo":{"decimalAmount":"10","currency":"EUR"}}')
     })
 
     it('should return the amount/currency represented by object', () => {
@@ -322,29 +323,29 @@ describe('Money', function () {
         let bitcoin = Money.fromDecimal(0.00012345, 'BTC')   
 
         expect(euro.amount).to.equal(12345)
-        expect(euro.bigAmount.equals(123.45)).to.be.true
+        expect(euro.decimalAmount.equals(123.45)).to.be.true
         expect(forint.amount).to.equal(12345)
-        expect(forint.bigAmount.equals(123.45)).to.be.true
+        expect(forint.decimalAmount.equals(123.45)).to.be.true
         expect(yen.amount).to.equal(12345)
-        expect(yen.bigAmount.equals(12345)).to.be.true
+        expect(yen.decimalAmount.equals(12345)).to.be.true
         expect(dinar.amount).to.equal(12345)
-        expect(dinar.bigAmount.equals(12.345)).to.be.true
+        expect(dinar.decimalAmount.equals(12.345)).to.be.true
         expect(bitcoin.amount).to.equal(12345)
-        expect(bitcoin.bigAmount.equals(0.00012345)).to.be.true
+        expect(bitcoin.decimalAmount.equals(0.00012345)).to.be.true
     })   
 
-    it('should convert from decimal per currency', function () {
-        var euro = Money.fromDecimal(123.45, 'EUR');
-        var forint = Money.fromDecimal(123.45, 'HUF');
-        var yen = Money.fromDecimal(12345, 'JPY');
-        var dinar = Money.fromDecimal(12.345, 'BHD');
-        var bitcoin = Money.fromDecimal(0.00012345, 'BTC')
+    it('should convert from decimal per currency', () => {
+        let euro = Money.fromDecimal(123.45, 'EUR')
+        let forint = Money.fromDecimal(123.45, 'HUF')
+        let yen = Money.fromDecimal(12345, 'JPY')
+        let dinar = Money.fromDecimal(12.345, 'BHD')
+        let bitcoin = Money.fromDecimal(0.00012345, 'BTC')
 
-        expect(euro.amount).to.equal(12345);
-        expect(forint.amount).to.equal(12345);
-        expect(yen.amount).to.equal(12345);
-        expect(dinar.amount).to.equal(12345);
-        expect(bitcoin.amount).to.equal(12345);
+        expect(euro.amount).to.equal(12345)
+        expect(forint.amount).to.equal(12345)
+        expect(yen.amount).to.equal(12345)
+        expect(dinar.amount).to.equal(12345)
+        expect(bitcoin.amount).to.equal(12345)
     });
 
     it('should convert to decimal per currency', function () {

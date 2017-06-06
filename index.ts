@@ -54,7 +54,7 @@ class Money {
 
     amount: number
     currency: string
-    bigAmount: BigNumber.BigNumber
+    decimalAmount: BigNumber.BigNumber
 
 
     /**
@@ -72,7 +72,7 @@ class Money {
             throw new TypeError('Amount must be a string or an integer')
 
         this.currency = currency.code
-        this.bigAmount = new BigNumber(amount).dividedBy(10 ** currency.decimal_digits)   
+        this.decimalAmount = new BigNumber(amount).dividedBy(10 ** currency.decimal_digits)   
         this.amount = isInt(amount) ? amount as number : parseInt(amount as string)
         
         Object.freeze(this)
@@ -164,7 +164,7 @@ class Money {
             return new Money(bigAmount.mul(10 ** currency.decimal_digits).toString(), currency)
         }
     }
-    
+
 
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
@@ -172,7 +172,7 @@ class Money {
     equals(other: Money): boolean {
         assertType(other)
 
-        return this.bigAmount.equals(other.bigAmount) &&
+        return this.decimalAmount.equals(other.decimalAmount) &&
                 this.currency === other.currency
     }
 
@@ -183,7 +183,7 @@ class Money {
         assertType(other)
         assertSameCurrency(this, other)
 
-        return new Money(this.bigAmount.add(other.bigAmount).mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
+        return new Money(this.decimalAmount.add(other.decimalAmount).mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
     }
 
     /**
@@ -193,7 +193,7 @@ class Money {
         assertType(other)
         assertSameCurrency(this, other)
 
-        return new Money(this.bigAmount.sub(other.bigAmount).mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
+        return new Money(this.decimalAmount.sub(other.decimalAmount).mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
     }
 
     /**
@@ -202,7 +202,7 @@ class Money {
     multiply(multiplier: number, round: RoundingMode = Rounding.ROUND_HALF_UP): Money {
         assertOperand(multiplier)
 
-        let amount = this.bigAmount.mul(multiplier).round(this.getCurrencyInfo().decimal_digits, round)
+        let amount = this.decimalAmount.mul(multiplier).round(this.getCurrencyInfo().decimal_digits, round)
         return new Money(amount.mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
     }
 
@@ -212,7 +212,7 @@ class Money {
     divide(divisor: number, round: RoundingMode = Rounding.ROUND_HALF_UP): Money {
         assertOperand(divisor)
 
-        let amount = this.bigAmount.div(divisor).round(this.getCurrencyInfo().decimal_digits, round)
+        let amount = this.decimalAmount.div(divisor).round(this.getCurrencyInfo().decimal_digits, round)
         return new Money(amount.mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
     }
 
@@ -220,7 +220,7 @@ class Money {
      * Allocates fund bases on the ratios provided returing an array of objects as a product of the allocation.
      */
     allocate(ratios: any[]): Money[] {
-        let remainder = this.bigAmount
+        let remainder = this.decimalAmount
         let results = []
         let total = 0
         let decimals = this.getCurrencyInfo().decimal_digits
@@ -230,13 +230,13 @@ class Money {
         })
 
         ratios.forEach(ratio => {
-            let share = this.bigAmount.mul((ratio / total).toString()).round(decimals, Rounding.ROUND_FLOOR)
+            let share = this.decimalAmount.mul((ratio / total).toString()).round(decimals, Rounding.ROUND_FLOOR)
             results.push(new Money(share.mul(10 ** decimals).toString(), this.currency))
             remainder = remainder.sub(share)
         })
 
         for (let i = 0; remainder.greaterThan(0); i++) {
-            results[i] = new Money(results[i].bigAmount.add(1 / (10 ** decimals)).mul(10 ** decimals).toString(), results[i].currency)
+            results[i] = new Money(results[i].decimalAmount.add(1 / (10 ** decimals)).mul(10 ** decimals).toString(), results[i].currency)
             remainder = remainder.sub(1 / (10 ** decimals))
         }
 
@@ -250,7 +250,7 @@ class Money {
         assertType(other)
         assertSameCurrency(this, other)
 
-        return this.bigAmount.comparedTo(other.bigAmount)
+        return this.decimalAmount.comparedTo(other.decimalAmount)
     }
 
     /**
@@ -285,21 +285,21 @@ class Money {
      * Returns true if the amount is zero.
      */
     isZero(): boolean {
-        return this.bigAmount.isZero()
+        return this.decimalAmount.isZero()
     }
 
     /**
      * Returns true if the amount is positive.
      */
     isPositive(): boolean {
-        return !this.bigAmount.isNegative()
+        return !this.decimalAmount.isNegative()
     }
 
     /**
      * Returns true if the amount is negative.
      */
     isNegative(): boolean {
-        return this.bigAmount.isNegative()
+        return this.decimalAmount.isNegative()
     }
 
     /**
@@ -315,15 +315,15 @@ class Money {
      * Returns the decimal value as a string.
      */
     toString(): string {       
-        return this.bigAmount.toFixed(this.getCurrencyInfo().decimal_digits)
+        return this.decimalAmount.toFixed(this.getCurrencyInfo().decimal_digits)
     }
 
     /**
      * Returns a serialised version of the instance.
      */
-    toJSON(): {bigAmount: string, currency: string} {
+    toJSON(): {decimalAmount: string, currency: string} {
         return {
-            bigAmount: this.bigAmount.toString(),
+            decimalAmount: this.decimalAmount.toString(),
             currency: this.currency
         }
     }
