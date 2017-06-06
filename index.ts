@@ -283,12 +283,9 @@ class Money {
 
     /**
      * Returns the decimal value as a string.
-     *
-     * @returns {string}
      */
-    toString(): string {
-        let currency = getCurrencyObject(this.currency)
-        return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits)
+    toString(): string {       
+        return this.bigAmount.toFixed(this.getCurrencyInfo().decimal_digits)
     }
 
     /**

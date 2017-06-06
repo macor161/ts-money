@@ -226,8 +226,7 @@ class Money {
      * @returns {string}
      */
     toString() {
-        let currency = getCurrencyObject(this.currency);
-        return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits);
+        return this.bigAmount.toFixed(this.getCurrencyInfo().decimal_digits);
     }
     /**
      * Returns a serialised version of the instance.
