@@ -1,6 +1,7 @@
 import { extend, isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
 import { Currency } from './lib/currency'
 import { Currencies } from './lib/currencies'
+import { Rounding, RoundingMode } from './lib/rounding'
 import * as BigNumber from 'bignumber.js'
 
 
@@ -160,50 +161,33 @@ class Money {
      */
     subtract(other: Money): Money {
         assertType(other)
-        assertSameCurrency(self, other)
+        assertSameCurrency(this, other)
 
         return new Money(this.bigAmount.sub(other.bigAmount).mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
     }
 
     /**
      * Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
-     *
-     * @param {Number} multiplier
-     * @param {Function} [fn=Math.round]
-     * @returns {Money}
      */
-    multiply(multiplier: number, fn?: Function): Money {
-        if (!isFunction(fn))
-            fn = Math.round
-
+    multiply(multiplier: number, round: RoundingMode = Rounding.ROUND_HALF_UP): Money {
         assertOperand(multiplier)
-        let amount = fn(this.amount * multiplier)
 
-        return new Money(amount, this.currency)
+        let amount = this.bigAmount.mul(multiplier).round(this.getCurrencyInfo().decimal_digits, round)
+        return new Money(amount.mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
     }
 
     /**
      * Divides the object by the multiplier returning a new Money instance that holds the result of the operation.
-     *
-     * @param {Number} divisor
-     * @param {Function} [fn=Math.round]
-     * @returns {Money}
      */
-    divide(divisor: number, fn?: Function): Money {
-        if (!isFunction(fn))
-            fn = Math.round
-
+    divide(divisor: number, round: RoundingMode = Rounding.ROUND_HALF_UP): Money {
         assertOperand(divisor)
-        let amount = fn(this.amount / divisor)
 
-        return new Money(amount, this.currency)
+        let amount = this.bigAmount.div(divisor).round(this.getCurrencyInfo().decimal_digits, round)
+        return new Money(amount.mul(10 ** this.getCurrencyInfo().decimal_digits).toString(), this.currency)
     }
 
     /**
      * Allocates fund bases on the ratios provided returing an array of objects as a product of the allocation.
-     *
-     * @param {Array} other
-     * @returns {Array.Money}
      */
     allocate(ratios: any[]): Money[] {
         let self = this
@@ -368,12 +352,14 @@ class Money {
      * Returns the full currency object
      */
     getCurrencyInfo(): Currency {
+        BigNumber.ROUND_CEIL
         return getCurrencyObject(this.currency)
     }
 
-
 }
+
+
 
 Object.assign(Money, Currencies)
 
-export { Money, Currencies, Currency }
+export { Money, Currencies, Currency, Rounding }

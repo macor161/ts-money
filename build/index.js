@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = require("lodash");
 const currencies_1 = require("./lib/currencies");
 exports.Currencies = currencies_1.Currencies;
+const rounding_1 = require("./lib/rounding");
+exports.Rounding = rounding_1.Rounding;
 const BigNumber = require("bignumber.js");
 let isInt = function (n) {
     return Number(n) === n && n % 1 === 0;
@@ -116,49 +118,30 @@ class Money {
     }
     /**
      * Subtracts the two objects creating a new Money instance that holds the result of the operation.
-     *
-     * @param {Money} other
-     * @returns {Money}
      */
     subtract(other) {
-        let self = this;
         assertType(other);
-        assertSameCurrency(self, other);
-        return new Money(self.amount - other.amount, self.currency);
+        assertSameCurrency(this, other);
+        return new Money(this.bigAmount.sub(other.bigAmount).mul(Math.pow(10, this.getCurrencyInfo().decimal_digits)).toString(), this.currency);
     }
     /**
      * Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
-     *
-     * @param {Number} multiplier
-     * @param {Function} [fn=Math.round]
-     * @returns {Money}
      */
-    multiply(multiplier, fn) {
-        if (!lodash_1.isFunction(fn))
-            fn = Math.round;
+    multiply(multiplier, round = rounding_1.Rounding.ROUND_HALF_UP) {
         assertOperand(multiplier);
-        let amount = fn(this.amount * multiplier);
-        return new Money(amount, this.currency);
+        let amount = this.bigAmount.mul(multiplier).round(this.getCurrencyInfo().decimal_digits, round);
+        return new Money(amount.mul(Math.pow(10, this.getCurrencyInfo().decimal_digits)).toString(), this.currency);
     }
     /**
      * Divides the object by the multiplier returning a new Money instance that holds the result of the operation.
-     *
-     * @param {Number} divisor
-     * @param {Function} [fn=Math.round]
-     * @returns {Money}
      */
-    divide(divisor, fn) {
-        if (!lodash_1.isFunction(fn))
-            fn = Math.round;
+    divide(divisor, round = rounding_1.Rounding.ROUND_HALF_UP) {
         assertOperand(divisor);
-        let amount = fn(this.amount / divisor);
-        return new Money(amount, this.currency);
+        let amount = this.bigAmount.div(divisor).round(this.getCurrencyInfo().decimal_digits, round);
+        return new Money(amount.mul(Math.pow(10, this.getCurrencyInfo().decimal_digits)).toString(), this.currency);
     }
     /**
      * Allocates fund bases on the ratios provided returing an array of objects as a product of the allocation.
-     *
-     * @param {Array} other
-     * @returns {Array.Money}
      */
     allocate(ratios) {
         let self = this;
@@ -301,6 +284,7 @@ class Money {
      * Returns the full currency object
      */
     getCurrencyInfo() {
+        BigNumber.ROUND_CEIL;
         return getCurrencyObject(this.currency);
     }
 }

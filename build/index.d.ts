@@ -1,5 +1,6 @@
 import { Currency } from './lib/currency';
 import { Currencies } from './lib/currencies';
+import { Rounding, RoundingMode } from './lib/rounding';
 import * as BigNumber from 'bignumber.js';
 declare class Money {
     amount: number;
@@ -23,32 +24,18 @@ declare class Money {
     add(other: Money): Money;
     /**
      * Subtracts the two objects creating a new Money instance that holds the result of the operation.
-     *
-     * @param {Money} other
-     * @returns {Money}
      */
     subtract(other: Money): Money;
     /**
      * Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
-     *
-     * @param {Number} multiplier
-     * @param {Function} [fn=Math.round]
-     * @returns {Money}
      */
-    multiply(multiplier: number, fn?: Function): Money;
+    multiply(multiplier: number, round?: RoundingMode): Money;
     /**
      * Divides the object by the multiplier returning a new Money instance that holds the result of the operation.
-     *
-     * @param {Number} divisor
-     * @param {Function} [fn=Math.round]
-     * @returns {Money}
      */
-    divide(divisor: number, fn?: Function): Money;
+    divide(divisor: number, round?: RoundingMode): Money;
     /**
      * Allocates fund bases on the ratios provided returing an array of objects as a product of the allocation.
-     *
-     * @param {Array} other
-     * @returns {Array.Money}
      */
     allocate(ratios: any[]): Money[];
     /**
@@ -142,4 +129,4 @@ declare class Money {
      */
     getCurrencyInfo(): Currency;
 }
-export { Money, Currencies, Currency };
+export { Money, Currencies, Currency, Rounding };

@@ -1,4 +1,4 @@
-var { Money, Currencies } = require('../build/index')
+var { Money, Currencies, Rounding } = require('../build/index')
 
 describe('Money', function () {
     it('should create a new instance from integer', function () {
@@ -215,21 +215,30 @@ describe('Money', function () {
         expect(result.currency).to.equal('EUR')
     })
 
-    it('should multiply correctly', function() {
-        var subject = new Money(1000, Currencies.EUR);
+    it('should multiply correctly', () => {
+        let subject = new Money(1000, Currencies.EUR)
+        let m1 = subject.multiply(1.2234)
+        let m2 = subject.multiply(1.2234, Rounding.ROUND_CEIL)
+        let m3 = subject.multiply(1.2234, Rounding.ROUND_FLOOR)
 
-        expect(subject.multiply(1.2234).amount).to.equal(1223);
-        expect(subject.multiply(1.2234, Math.ceil).amount).to.equal(1224);
-        expect(subject.multiply(1.2234, Math.floor).amount).to.equal(1223);
-    });
+        expect(m1.amount).to.equal(1223)
+        expect(m1.bigAmount.equals(12.23)).to.be.true
+        expect(m2.amount).to.equal(1224)
+        expect(m2.bigAmount.equals(12.24)).to.be.true
+        expect(m3.amount).to.equal(1223)
+        expect(m3.bigAmount.equals(12.23)).to.be.true
+    })
 
-    it('should divide correctly', function() {
-        var subject = new Money(1000, Currencies.EUR);
+    it('should divide correctly', () => {
+        let subject = new Money(1000, Currencies.EUR)
+        let d1 = subject.divide(2.234)
+        let d2 = subject.divide(2.234, Rounding.ROUND_CEIL)
+        let d3 = subject.divide(2.234, Rounding.ROUND_FLOOR)
 
-        expect(subject.divide(2.234).amount).to.equal(448);
-        expect(subject.divide(2.234, Math.ceil).amount).to.equal(448);
-        expect(subject.divide(2.234, Math.floor).amount).to.equal(447);
-    });
+        expect(d1.amount).to.equal(448)
+        expect(d2.amount).to.equal(448)
+        expect(d3.amount).to.equal(447)
+    })
 
     it('should allocate correctly', function() {
        var subject = new Money(1000, Currencies.EUR);
