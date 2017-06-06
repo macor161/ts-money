@@ -114,7 +114,14 @@ class Money {
         
         currency = isString(currency) ? getCurrencyObject(currency) : currency as Currency
 
-        let bigAmount = new BigNumber(amount).round(currency.decimal_digits, rounding)
+        let bigAmount = new BigNumber(amount)
+
+        if (bigAmount.decimalPlaces() > currency.decimal_digits) {
+            throw new Error(`The currency ${currency.code} supports only` +
+                     ` ${currency.decimal_digits} decimal digits`)
+        }
+
+        bigAmount = bigAmount.round(currency.decimal_digits, rounding)
 
         return new Money(bigAmount.mul(10 ** currency.decimal_digits).toString(), currency)
     }

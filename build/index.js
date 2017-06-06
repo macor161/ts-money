@@ -82,7 +82,12 @@ class Money {
         if (!lodash_1.isString(amount))
             throw new TypeError('amount must be of type string');
         currency = lodash_1.isString(currency) ? getCurrencyObject(currency) : currency;
-        let bigAmount = new BigNumber(amount).round(currency.decimal_digits, rounding);
+        let bigAmount = new BigNumber(amount);
+        if (bigAmount.decimalPlaces() > currency.decimal_digits) {
+            throw new Error(`The currency ${currency.code} supports only` +
+                ` ${currency.decimal_digits} decimal digits`);
+        }
+        bigAmount = bigAmount.round(currency.decimal_digits, rounding);
         return new Money(bigAmount.mul(Math.pow(10, currency.decimal_digits)).toString(), currency);
     }
     /**
