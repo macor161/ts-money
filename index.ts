@@ -302,8 +302,6 @@ class Money {
 
     /**
      * Returns the amount represented by this object.
-     *
-     * @returns {number}
      */
     getAmount(): number {
         return this.amount
@@ -312,8 +310,6 @@ class Money {
 
     /**
      * Returns the currency represented by this object.
-     *
-     * @returns {string}
      */
     getCurrency(): string {
         return this.currency

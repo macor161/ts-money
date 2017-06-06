@@ -11,7 +11,6 @@ describe('Money', function () {
     it('should create a new instance from string', () => {
         var money = new Money('1001',  Currencies.EUR)
 
-
         expect(money.bigAmount.toString()).to.equal('10.01')
         expect(money.currency).to.equal('EUR')
     })    
@@ -297,20 +296,20 @@ describe('Money', function () {
         var subject = new Money(1000, 'EUR');
 
         expect('' + subject).to.equal('10.00');
-    });
+    })
 
     it('should allow to be stringified as JSON', function () {
         var subject = new Money(1000, 'EUR');
 
         expect(JSON.stringify({ foo: subject })).to.equal('{"foo":{"amount":1000,"currency":"EUR"}}');
-    });
+    })
 
-    it('should return the amount/currency represented by object', function () {
-        var subject = new Money(1000, 'EUR');
+    it('should return the amount/currency represented by object', () => {
+        var subject = new Money(1000, 'EUR')
 
-        expect(subject.getAmount()).to.equal(1000);
-        expect(subject.getCurrency()).to.equal('EUR');
-    });
+        expect(subject.getAmount()).to.equal(1000)
+        expect(subject.getCurrency()).to.equal('EUR')
+    })
 
     it('should return the right currency info', () => {
         var subject = new Money(1000, 'EUR')
