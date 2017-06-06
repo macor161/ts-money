@@ -275,7 +275,7 @@ class Money {
     /**
      * Returns the decimal value as a float.
      *
-     * @returns {number}
+     * WARNING: Does not support large numbers
      */
     toDecimal(): number {
         return Number(this.toString())
@@ -290,18 +290,17 @@ class Money {
 
     /**
      * Returns a serialised version of the instance.
-     *
-     * @returns {{amount: number, currency: string}}
      */
-    toJSON(): {amount: number, currency: string} {
+    toJSON(): {bigAmount: string, currency: string} {
         return {
-            amount: this.amount,
+            bigAmount: this.bigAmount.toString(),
             currency: this.currency
         }
     }
 
     /**
      * Returns the amount represented by this object.
+     * @deprecated
      */
     getAmount(): number {
         return this.amount
@@ -319,7 +318,6 @@ class Money {
      * Returns the full currency object
      */
     getCurrencyInfo(): Currency {
-        BigNumber.ROUND_CEIL
         return getCurrencyObject(this.currency)
     }
 
