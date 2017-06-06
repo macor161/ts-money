@@ -93,10 +93,38 @@ class Money {
         return new Money(amount, currency)
     }
     
-    static fromStringDecimal(amount: string, currency: string, rounder?: string): Money {
-        throw('Not implemented')
+
+    /**
+     * Creates a Money object from a string representing a 
+     * decimal number
+     */
+    static fromStringDecimal(amount: string|any, currency: string|Currency|RoundingMode, rounding: RoundingMode = Rounding.ROUND_HALF_UP): Money {
+        if (isObject(amount)) {
+            if (amount.amount === undefined || amount.currency === undefined)
+                throw new TypeError('Missing required parameters amount,currency')
+
+            rounding = currency as RoundingMode
+            currency = amount.currency
+            amount = amount.amount
+        }
+
+        if (!isString(amount))
+            throw new TypeError('amount must be of type string')
+
+        
+        currency = isString(currency) ? getCurrencyObject(currency) : currency as Currency
+
+        let bigAmount = new BigNumber(amount).round(currency.decimal_digits, rounding)
+
+        return new Money(bigAmount.mul(10 ** currency.decimal_digits).toString(), currency)
     }
 
+
+    /**
+     * Creates a Money object from a decimal number
+     * 
+     * WARNING: Does not support large numbers
+     */
     static fromDecimal(amount: number|any, currency: string|any, rounder?: string|Function): Money {
         if (isObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)

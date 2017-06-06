@@ -12,7 +12,16 @@ declare class Money {
      */
     constructor(amount: number | string, currency: Currency | string);
     static fromInteger(amount: number | any, currency?: string): Money;
-    static fromStringDecimal(amount: string, currency: string, rounder?: string): Money;
+    /**
+     * Creates a Money object from a string representing a
+     * decimal number
+     */
+    static fromStringDecimal(amount: string | any, currency: string | Currency | RoundingMode, rounding?: RoundingMode): Money;
+    /**
+     * Creates a Money object from a decimal number
+     *
+     * WARNING: Does not support large numbers
+     */
     static fromDecimal(amount: number | any, currency: string | any, rounder?: string | Function): Money;
     /**
      * Returns true if the two instances of Money are equal, false otherwise.

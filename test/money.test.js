@@ -301,7 +301,7 @@ describe('Money', function () {
     it('should allow to be stringified as JSON', function () {
         var subject = new Money(1000, 'EUR');
 
-        expect(JSON.stringify({ foo: subject })).to.equal('{"foo":{"amount":1000,"currency":"EUR"}}');
+        expect(JSON.stringify({ foo: subject })).to.equal('{"foo":{"bigAmount":"10","currency":"EUR"}}');
     })
 
     it('should return the amount/currency represented by object', () => {
@@ -315,7 +315,26 @@ describe('Money', function () {
         var subject = new Money(1000, 'EUR')
 
         expect(subject.getCurrencyInfo()).to.equal(Currencies.EUR)
-    })    
+    }) 
+
+    it('should convert from decimal string per currency', () => {
+        let euro = Money.fromDecimal(123.45, 'EUR')
+        let forint = Money.fromDecimal(123.45, 'HUF')
+        let yen = Money.fromDecimal(12345, 'JPY')
+        let dinar = Money.fromDecimal(12.345, 'BHD')
+        let bitcoin = Money.fromDecimal(0.00012345, 'BTC')   
+
+        expect(euro.amount).to.equal(12345)
+        expect(euro.bigAmount.equals(123.45)).to.be.true
+        expect(forint.amount).to.equal(12345)
+        expect(forint.bigAmount.equals(123.45)).to.be.true
+        expect(yen.amount).to.equal(12345)
+        expect(yen.bigAmount.equals(12345)).to.be.true
+        expect(dinar.amount).to.equal(12345)
+        expect(dinar.bigAmount.equals(12.345)).to.be.true
+        expect(bitcoin.amount).to.equal(12345)
+        expect(bitcoin.bigAmount.equals(0.00012345)).to.be.true
+    })   
 
     it('should convert from decimal per currency', function () {
         var euro = Money.fromDecimal(123.45, 'EUR');

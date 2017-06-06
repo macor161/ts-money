@@ -67,9 +67,29 @@ class Money {
             throw new TypeError('Amount must be an integer value');
         return new Money(amount, currency);
     }
-    static fromStringDecimal(amount, currency, rounder) {
-        throw ('Not implemented');
+    /**
+     * Creates a Money object from a string representing a
+     * decimal number
+     */
+    static fromStringDecimal(amount, currency, rounding = rounding_1.Rounding.ROUND_HALF_UP) {
+        if (lodash_1.isObject(amount)) {
+            if (amount.amount === undefined || amount.currency === undefined)
+                throw new TypeError('Missing required parameters amount,currency');
+            rounding = currency;
+            currency = amount.currency;
+            amount = amount.amount;
+        }
+        if (!lodash_1.isString(amount))
+            throw new TypeError('amount must be of type string');
+        currency = lodash_1.isString(currency) ? getCurrencyObject(currency) : currency;
+        let bigAmount = new BigNumber(amount).round(currency.decimal_digits, rounding);
+        return new Money(bigAmount.mul(Math.pow(10, currency.decimal_digits)).toString(), currency);
     }
+    /**
+     * Creates a Money object from a decimal number
+     *
+     * WARNING: Does not support large numbers
+     */
     static fromDecimal(amount, currency, rounder) {
         if (lodash_1.isObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
