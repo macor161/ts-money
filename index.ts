@@ -59,24 +59,21 @@ class Money {
     /**
      * Creates a new Money instance.
      * The created Money instances is a value object thus it is immutable.
-     *
-     * @param {Number} amount
-     * @param {Object/String} currency
-     * @returns {Money}
-     * @constructor
      */
-    constructor(amount: number, currency: any|string) {
+    constructor(amount: number|string, currency: Currency|string) {
         if (isString(currency))
             currency = getCurrencyObject(currency)
 
         if (!isPlainObject(currency))
             throw new TypeError('Invalid currency')
 
-        if (!isInt(amount))
+        if (!isInt(amount) && !isString(amount))
             throw new TypeError('Amount must be an integer')
 
-        this.amount = amount
         this.currency = currency.code
+        this.bigAmount = new BigNumber(amount).dividedBy(10 ** currency.decimal_digits)   
+        this.amount = isInt(amount) ? amount as number : parseInt(amount as string)
+        
         Object.freeze(this)
     }
 

@@ -8,13 +8,8 @@ declare class Money {
     /**
      * Creates a new Money instance.
      * The created Money instances is a value object thus it is immutable.
-     *
-     * @param {Number} amount
-     * @param {Object/String} currency
-     * @returns {Money}
-     * @constructor
      */
-    constructor(amount: number, currency: any | string);
+    constructor(amount: number | string, currency: Currency | string);
     static fromInteger(amount: number | any, currency?: string): Money;
     static fromDecimal(amount: number | any, currency: string | any, rounder?: string | Function): Money;
     /**

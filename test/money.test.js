@@ -2,11 +2,19 @@ var { Money, Currencies } = require('../build/index')
 
 describe('Money', function () {
     it('should create a new instance from integer', function () {
-        var money = new Money(1000, Money.EUR);
+        var money = new Money(1000, Currencies.EUR);
 
         expect(money.amount).to.equal(1000);
         expect(money.currency).to.equal('EUR');
     });
+
+    it('should create a new instance from string', () => {
+        var money = new Money('1001',  Currencies.EUR)
+
+
+        expect(money.bigAmount.toString()).to.equal('10.01')
+        expect(money.currency).to.equal('EUR')
+    })    
 
     it('should not create a new instance from decimal', function () {
         expect(function () {
@@ -344,6 +352,7 @@ describe('Money', function () {
 
         expect(minBitcoin.toDecimal()).to.equal(0.00000001)
     })
+
 })
 
 describe('Currencies', () => {

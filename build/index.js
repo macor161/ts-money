@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = require("lodash");
 const currencies_1 = require("./lib/currencies");
 exports.Currencies = currencies_1.Currencies;
+const BigNumber = require("bignumber.js");
 let isInt = function (n) {
     return Number(n) === n && n % 1 === 0;
 };
@@ -40,21 +41,17 @@ class Money {
     /**
      * Creates a new Money instance.
      * The created Money instances is a value object thus it is immutable.
-     *
-     * @param {Number} amount
-     * @param {Object/String} currency
-     * @returns {Money}
-     * @constructor
      */
     constructor(amount, currency) {
         if (lodash_1.isString(currency))
             currency = getCurrencyObject(currency);
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
-        if (!isInt(amount))
+        if (!isInt(amount) && !lodash_1.isString(amount))
             throw new TypeError('Amount must be an integer');
-        this.amount = amount;
         this.currency = currency.code;
+        this.bigAmount = new BigNumber(amount).dividedBy(Math.pow(10, currency.decimal_digits));
+        this.amount = isInt(amount) ? amount : parseInt(amount);
         Object.freeze(this);
     }
     static fromInteger(amount, currency) {
