@@ -18,34 +18,34 @@ describe('Money', function () {
 
     it('should not create a new instance from decimal', function () {
         expect(function () {
-            new Money(10.42, Currencies.EUR);
-        }).to.throw(TypeError);
-    });
+            new Money(10.42, Currencies.EUR)
+        }).to.throw(TypeError)
+    })
 
     it('should create a new instance from decimal using `.fromDecimal()`', function () {
-        var money = Money.fromDecimal(10.01, Currencies.EUR);
-        var money1 = Money.fromDecimal(10.1, Currencies.EUR);
-        var money2 = Money.fromDecimal(10, Currencies.EUR);
+        var money = Money.fromDecimal(10.01, Currencies.EUR)
+        var money1 = Money.fromDecimal(10.1, Currencies.EUR)
+        var money2 = Money.fromDecimal(10, Currencies.EUR)
 
-        expect(money.amount).to.equal(1001);
-        expect(money.currency).to.equal('EUR');
-        expect(money1.amount).to.equal(1010);
-        expect(money2.amount).to.equal(1000);
-    });
+        expect(money.amount).to.equal(1001)
+        expect(money.currency).to.equal('EUR')
+        expect(money1.amount).to.equal(1010)
+        expect(money2.amount).to.equal(1000)
+    })
 
     it('should create a new instance from decimal string using `.fromDecimal()`', function () {
-        var money = Money.fromDecimal('10.01', Currencies.EUR);
-        var money1 = Money.fromDecimal('10', Currencies.EUR);
+        var money = Money.fromDecimal('10.01', Currencies.EUR)
+        var money1 = Money.fromDecimal('10', Currencies.EUR)
 
-        expect(money.amount).to.equal(1001);
-        expect(money1.amount).to.equal(1000);
-    });
+        expect(money.amount).to.equal(1001)
+        expect(money1.amount).to.equal(1000)
+    })
 
     it('should not create a new instance from decimal using `.fromDecimal()` if too many decimal places', function () {
         expect(function () {
-            Money.fromDecimal(10.421, Currencies.EUR);
-        }).to.throw(Error);
-    });
+            Money.fromDecimal(10.421, Currencies.EUR)
+        }).to.throw(Error)
+    })
 
     it('should create a new instance from decimal using `.fromDecimal()` even if too many decimal places if rounder function provided', () => {
         let money = Money.fromDecimal(10.01, Currencies.EUR, Rounding.ROUND_CEIL)
@@ -66,52 +66,52 @@ describe('Money', function () {
     })
 
     it('should create a new instance from string currency', function () {
-        var money = new Money(1042, 'EUR');
+        var money = new Money(1042, 'EUR')
 
-        expect(money.amount).to.equal(1042);
-        expect(money.currency).to.equal('EUR');
-    });
+        expect(money.amount).to.equal(1042)
+        expect(money.currency).to.equal('EUR')
+    })
 
     it('should create a new instance from integer object', function () {
-        var money = Money.fromInteger({amount: 1151, currency: 'EUR'});
+        var money = Money.fromInteger({amount: 1151, currency: 'EUR'})
 
-        expect(money.amount).to.equal(1151);
-        expect(money.currency).to.equal('EUR');
-    });
+        expect(money.amount).to.equal(1151)
+        expect(money.currency).to.equal('EUR')
+    })
 
     it('should create a new instance from integer', function () {
-        var money = Money.fromInteger(1151,Currencies.EUR);
+        var money = Money.fromInteger(1151,Currencies.EUR)
 
-        expect(money.amount).to.equal(1151);
-        expect(money.currency).to.equal('EUR');
-    });
+        expect(money.amount).to.equal(1151)
+        expect(money.currency).to.equal('EUR')
+    })
 
     it('should create a new instance from zero integer', function () {
-        var money = Money.fromInteger(0,Currencies.EUR);
+        var money = Money.fromInteger(0,Currencies.EUR)
 
-        expect(money.amount).to.equal(0);
-        expect(money.currency).to.equal('EUR');
-    });
+        expect(money.amount).to.equal(0)
+        expect(money.currency).to.equal('EUR')
+    })
 
     it('should create a new instance with correct decimals from object', function () {
-        var money = Money.fromDecimal({amount: 11.5, currency: 'EUR'});
+        var money = Money.fromDecimal({amount: 11.5, currency: 'EUR'})
 
-        expect(money.amount).to.equal(1150);
-        expect(money.currency).to.equal('EUR');
-    });
+        expect(money.amount).to.equal(1150)
+        expect(money.currency).to.equal('EUR')
+    })
 
     it('should create a new instance from object with currenct object', function () {
-        var money = Money.fromDecimal({amount: 11.51, currency: Currencies.EUR});
+        var money = Money.fromDecimal({amount: 11.51, currency: Currencies.EUR})
 
-        expect(money.amount).to.equal(1151);
-        expect(money.currency).to.equal('EUR');
-    });
+        expect(money.amount).to.equal(1151)
+        expect(money.currency).to.equal('EUR')
+    })
 
     it('should detect invalid currency', function () {
         expect(function () {
             new Money(10, 'XYZ')
-        }).to.throw(TypeError);
-    });
+        }).to.throw(TypeError)
+    })
 
     it('should accept currencies as case insensitive', () => {
         let m1 = new Money(10, 'usd')
@@ -123,17 +123,17 @@ describe('Money', function () {
     })
 
     it('should serialize correctly', function() {
-        var money = new Money(1042, Currencies.EUR);
+        var money = new Money(1042, Currencies.EUR)
 
-        expect(money.amount).to.be.a.number;
-        expect(money.currency).to.be.a.string;
-    });
+        expect(money.amount).to.be.a.number
+        expect(money.currency).to.be.a.string
+    })
 
     it('should check for decimal precision', function() {
         expect(function() {
             new Money(10.423456, Currencies.EUR)
-        }).to.throw(Error);
-    });
+        }).to.throw(Error)
+    })
 
     it('should add same currencies', () => {
         var first = new Money(1000, Currencies.EUR)
@@ -159,21 +159,21 @@ describe('Money', function () {
     })
 
     it('should check for same type', function () {
-        var first = new Money(1000, Currencies.EUR);
+        var first = new Money(1000, Currencies.EUR)
 
-        expect(first.add.bind(first, {})).to.throw(TypeError);
-    });
+        expect(first.add.bind(first, {})).to.throw(TypeError)
+    })
 
     it('should check if equal', function () {
-        var first = new Money(1000, Currencies.EUR);
-        var second = new Money(1000, Currencies.EUR);
-        var third = new Money(1000, Currencies.USD);
-        var fourth = new Money(100, Currencies.EUR);
+        var first = new Money(1000, Currencies.EUR)
+        var second = new Money(1000, Currencies.EUR)
+        var third = new Money(1000, Currencies.USD)
+        var fourth = new Money(100, Currencies.EUR)
 
-        expect(first.equals(second)).to.equal(true);
-        expect(first.equals(third)).to.equal(false);
-        expect(first.equals(fourth)).to.equal(false);
-    });
+        expect(first.equals(second)).to.equal(true)
+        expect(first.equals(third)).to.equal(false)
+        expect(first.equals(fourth)).to.equal(false)
+    })
 
     it('should compare correctly', () => {
         var subject = new Money(1000, Currencies.EUR)
@@ -346,44 +346,44 @@ describe('Money', function () {
         expect(yen.amount).to.equal(12345)
         expect(dinar.amount).to.equal(12345)
         expect(bitcoin.amount).to.equal(12345)
-    });
+    })
 
     it('should convert to decimal per currency', function () {
-        var euro = new Money(12345, 'EUR');
-        var forint = new Money(12345, 'HUF');
-        var yen = new Money(12345, 'JPY');
-        var dinar = new Money(12345, 'BHD');
-        var bitcoin = new Money(12345, 'BTC');
+        var euro = new Money(12345, 'EUR')
+        var forint = new Money(12345, 'HUF')
+        var yen = new Money(12345, 'JPY')
+        var dinar = new Money(12345, 'BHD')
+        var bitcoin = new Money(12345, 'BTC')
 
-        expect(euro.toDecimal()).to.equal(123.45);
-        expect(forint.toDecimal()).to.equal(123.45);
-        expect(yen.toDecimal()).to.equal(12345);
-        expect(dinar.toDecimal()).to.equal(12.345);
-        expect(bitcoin.toDecimal()).to.equal(0.00012345);
-    });
+        expect(euro.toDecimal()).to.equal(123.45)
+        expect(forint.toDecimal()).to.equal(123.45)
+        expect(yen.toDecimal()).to.equal(12345)
+        expect(dinar.toDecimal()).to.equal(12.345)
+        expect(bitcoin.toDecimal()).to.equal(0.00012345)
+    })
 
     it('should convert from decimal when using less than maximum decimal digits', function () {
-        var euro = Money.fromDecimal(123, 'EUR');
-        var forint = Money.fromDecimal(123.4, 'HUF');
-        var dinar = Money.fromDecimal(12.3, 'BHD');
-        var bitcoin = Money.fromDecimal(0.000125, 'BTC');
+        var euro = Money.fromDecimal(123, 'EUR')
+        var forint = Money.fromDecimal(123.4, 'HUF')
+        var dinar = Money.fromDecimal(12.3, 'BHD')
+        var bitcoin = Money.fromDecimal(0.000125, 'BTC')
 
-        expect(euro.amount).to.equal(12300);
-        expect(forint.amount).to.equal(12340);
-        expect(dinar.amount).to.equal(12300);
-        expect(bitcoin.amount).to.equal(12500);
-    });
+        expect(euro.amount).to.equal(12300)
+        expect(forint.amount).to.equal(12340)
+        expect(dinar.amount).to.equal(12300)
+        expect(bitcoin.amount).to.equal(12500)
+    })
 
     it('should convert maximum available value to decimal for currencies with many positions', function () {
-        var almostMaxBitcoin = new Money(2099999999999999, 'BTC');
-        var maxBitcoin = new Money(2100000000000000, 'BTC');
+        var almostMaxBitcoin = new Money(2099999999999999, 'BTC')
+        var maxBitcoin = new Money(2100000000000000, 'BTC')
 
         expect(almostMaxBitcoin.toDecimal()).to.equal(20999999.99999999)
         expect(maxBitcoin.toDecimal()).to.equal(21000000.0)
-    });
+    })
 
     it('should convert minimum available value to decimal for currencies with many positions', function () {
-        var minBitcoin = new Money(1, 'BTC');
+        var minBitcoin = new Money(1, 'BTC')
 
         expect(minBitcoin.toDecimal()).to.equal(0.00000001)
     })
