@@ -259,29 +259,29 @@ describe('Money', function () {
        expect(results[2].currency).to.equal('EUR')
     })
 
-    it('zero check works correctly', function() {
-        var subject = new Money(1000, 'EUR');
-        var subject1 = new Money(0, 'EUR');
+    it('zero check works correctly', () => {
+        var subject = new Money(1000, 'EUR')
+        var subject1 = new Money(0, 'EUR')
 
-        expect(subject.isZero()).to.be.false;
-        expect(subject1.isZero()).to.be.true;
-    });
+        expect(subject.isZero()).to.be.false
+        expect(subject1.isZero()).to.be.true
+    })
 
-    it('positive check works correctly', function() {
-        var subject = new Money(1000, 'EUR');
-        var subject1 = new Money(-1000, 'EUR');
+    it('positive check works correctly', () => {
+        var subject = new Money(1000, 'EUR')
+        var subject1 = new Money(-1000, 'EUR')
 
-        expect(subject.isPositive()).to.be.true;
-        expect(subject1.isPositive()).to.be.false;
-    });
+        expect(subject.isPositive()).to.be.true
+        expect(subject1.isPositive()).to.be.false
+    })
 
-    it('negative check works correctly', function() {
-        var subject = new Money(1000, 'EUR');
-        var subject1 = new Money(-1000, 'EUR');
+    it('negative check works correctly', () => {
+        var subject = new Money(1000, 'EUR')
+        var subject1 = new Money(-1000, 'EUR')
 
-        expect(subject.isNegative()).to.be.false;
-        expect(subject1.isNegative()).to.be.true;
-    });
+        expect(subject.isNegative()).to.be.false
+        expect(subject1.isNegative()).to.be.true
+    })
 
     it('should allow to extract the amount as a decimal', function () {
         var subject = new Money(1000, 'EUR');

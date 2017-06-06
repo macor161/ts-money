@@ -172,63 +172,45 @@ class Money {
     }
     /**
      * Checks whether the value represented by this object is greater than the other.
-     *
-     * @param {Money} other
-     * @returns {boolean}
      */
     greaterThan(other) {
         return 1 === this.compare(other);
     }
     /**
      * Checks whether the value represented by this object is greater or equal to the other.
-     *
-     * @param {Money} other
-     * @returns {boolean}
      */
     greaterThanOrEqual(other) {
         return 0 <= this.compare(other);
     }
     /**
      * Checks whether the value represented by this object is less than the other.
-     *
-     * @param {Money} other
-     * @returns {boolean}
      */
     lessThan(other) {
         return -1 === this.compare(other);
     }
     /**
      * Checks whether the value represented by this object is less than or equal to the other.
-     *
-     * @param {Money} other
-     * @returns {boolean}
      */
     lessThanOrEqual(other) {
         return 0 >= this.compare(other);
     }
     /**
      * Returns true if the amount is zero.
-     *
-     * @returns {boolean}
      */
     isZero() {
-        return this.amount === 0;
+        return this.bigAmount.isZero();
     }
     /**
      * Returns true if the amount is positive.
-     *
-     * @returns {boolean}
      */
     isPositive() {
-        return this.amount > 0;
+        return !this.bigAmount.isNegative();
     }
     /**
      * Returns true if the amount is negative.
-     *
-     * @returns {boolean}
      */
     isNegative() {
-        return this.amount < 0;
+        return this.bigAmount.isNegative();
     }
     /**
      * Returns the decimal value as a float.

@@ -44,48 +44,30 @@ declare class Money {
     compare(other: Money): number;
     /**
      * Checks whether the value represented by this object is greater than the other.
-     *
-     * @param {Money} other
-     * @returns {boolean}
      */
     greaterThan(other: Money): boolean;
     /**
      * Checks whether the value represented by this object is greater or equal to the other.
-     *
-     * @param {Money} other
-     * @returns {boolean}
      */
     greaterThanOrEqual(other: Money): boolean;
     /**
      * Checks whether the value represented by this object is less than the other.
-     *
-     * @param {Money} other
-     * @returns {boolean}
      */
     lessThan(other: Money): boolean;
     /**
      * Checks whether the value represented by this object is less than or equal to the other.
-     *
-     * @param {Money} other
-     * @returns {boolean}
      */
     lessThanOrEqual(other: Money): boolean;
     /**
      * Returns true if the amount is zero.
-     *
-     * @returns {boolean}
      */
     isZero(): boolean;
     /**
      * Returns true if the amount is positive.
-     *
-     * @returns {boolean}
      */
     isPositive(): boolean;
     /**
      * Returns true if the amount is negative.
-     *
-     * @returns {boolean}
      */
     isNegative(): boolean;
     /**
