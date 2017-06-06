@@ -215,20 +215,12 @@ class Money {
 
     /**
      * Compares two instances of Money.
-     *
-     * @param {Money} other
-     * @returns {Number}
      */
     compare(other: Money): number {
-        let self = this
-
         assertType(other)
-        assertSameCurrency(self, other)
+        assertSameCurrency(this, other)
 
-        if (self.amount === other.amount)
-            return 0
-
-        return self.amount > other.amount ? 1 : -1
+        return this.bigAmount.comparedTo(other.bigAmount)
     }
 
     /**

@@ -40,9 +40,6 @@ declare class Money {
     allocate(ratios: any[]): Money[];
     /**
      * Compares two instances of Money.
-     *
-     * @param {Money} other
-     * @returns {Number}
      */
     compare(other: Money): number;
     /**

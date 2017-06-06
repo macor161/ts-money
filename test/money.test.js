@@ -178,33 +178,33 @@ describe('Money', function () {
         expect(first.equals(fourth)).to.equal(false);
     });
 
-    it('should compare correctly', function () {
-        var subject = new Money(1000, Currencies.EUR);
+    it('should compare correctly', () => {
+        var subject = new Money(1000, Currencies.EUR)
 
-        expect(subject.compare(new Money(1500, Currencies.EUR))).to.equal(-1);
-        expect(subject.compare(new Money(500, Currencies.EUR))).to.equal(1);
-        expect(subject.compare(new Money(1000, Currencies.EUR))).to.equal(0);
+        expect(subject.compare(new Money(1500, Currencies.EUR))).to.equal(-1)
+        expect(subject.compare(new Money(500, Currencies.EUR))).to.equal(1)
+        expect(subject.compare(new Money(1000, Currencies.EUR))).to.equal(0)
 
-        expect(function () {
-            subject.compare(new Money(1500, Currencies.USD));
-        }).to.throw(Error, 'Different currencies');
+        expect(() => {
+            subject.compare(new Money(1500, Currencies.USD))
+        }).to.throw(Error, 'Different currencies')
 
-        expect(subject.greaterThan(new Money(1500, Currencies.EUR))).to.equal(false);
-        expect(subject.greaterThan(new Money(500, Currencies.EUR))).to.equal(true);
-        expect(subject.greaterThan(new Money(1000, Currencies.EUR))).to.equal(false);
+        expect(subject.greaterThan(new Money(1500, Currencies.EUR))).to.equal(false)
+        expect(subject.greaterThan(new Money(500, Currencies.EUR))).to.equal(true)
+        expect(subject.greaterThan(new Money(1000, Currencies.EUR))).to.equal(false)
 
-        expect(subject.greaterThanOrEqual(new Money(1500, Currencies.EUR))).to.equal(false);
-        expect(subject.greaterThanOrEqual(new Money(500, Currencies.EUR))).to.equal(true);
-        expect(subject.greaterThanOrEqual(new Money(1000, Currencies.EUR))).to.equal(true);
+        expect(subject.greaterThanOrEqual(new Money(1500, Currencies.EUR))).to.equal(false)
+        expect(subject.greaterThanOrEqual(new Money(500, Currencies.EUR))).to.equal(true)
+        expect(subject.greaterThanOrEqual(new Money(1000, Currencies.EUR))).to.equal(true)
 
-        expect(subject.lessThan(new Money(1500, Currencies.EUR))).to.equal(true);
-        expect(subject.lessThan(new Money(500, Currencies.EUR))).to.equal(false);
-        expect(subject.lessThan(new Money(1000, Currencies.EUR))).to.equal(false);
+        expect(subject.lessThan(new Money(1500, Currencies.EUR))).to.equal(true)
+        expect(subject.lessThan(new Money(500, Currencies.EUR))).to.equal(false)
+        expect(subject.lessThan(new Money(1000, Currencies.EUR))).to.equal(false)
 
-        expect(subject.lessThanOrEqual(new Money(1500, Currencies.EUR))).to.equal(true);
-        expect(subject.lessThanOrEqual(new Money(500, Currencies.EUR))).to.equal(false);
-        expect(subject.lessThanOrEqual(new Money(1000, Currencies.EUR))).to.equal(true);
-    });
+        expect(subject.lessThanOrEqual(new Money(1500, Currencies.EUR))).to.equal(true)
+        expect(subject.lessThanOrEqual(new Money(500, Currencies.EUR))).to.equal(false)
+        expect(subject.lessThanOrEqual(new Money(1000, Currencies.EUR))).to.equal(true)
+    })
 
     it('should subtract same currencies correctly', () => {
         var subject = new Money(1000, Currencies.EUR)

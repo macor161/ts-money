@@ -152,7 +152,6 @@ class Money {
             total += ratio;
         });
         ratios.forEach(ratio => {
-            //let share = Math.floor(this.amount * ratio / total)
             let share = this.bigAmount.mul((ratio / total).toString()).round(decimals, rounding_1.Rounding.ROUND_FLOOR);
             results.push(new Money(share.mul(Math.pow(10, decimals)).toString(), this.currency));
             remainder = remainder.sub(share);
@@ -165,17 +164,11 @@ class Money {
     }
     /**
      * Compares two instances of Money.
-     *
-     * @param {Money} other
-     * @returns {Number}
      */
     compare(other) {
-        let self = this;
         assertType(other);
-        assertSameCurrency(self, other);
-        if (self.amount === other.amount)
-            return 0;
-        return self.amount > other.amount ? 1 : -1;
+        assertSameCurrency(this, other);
+        return this.bigAmount.comparedTo(other.bigAmount);
     }
     /**
      * Checks whether the value represented by this object is greater than the other.
