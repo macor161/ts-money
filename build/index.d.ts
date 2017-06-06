@@ -22,7 +22,7 @@ declare class Money {
      *
      * WARNING: Does not support large numbers
      */
-    static fromDecimal(amount: number | any, currency: string | any, rounder?: string | Function): Money;
+    static fromDecimal(amount: number | any, currency: string | any, rounder?: RoundingMode): Money;
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
      */

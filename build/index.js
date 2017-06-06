@@ -112,18 +112,13 @@ class Money {
             if (decimals > currency.decimal_digits)
                 throw new Error(`The currency ${currency.code} supports only` +
                     ` ${currency.decimal_digits} decimal digits`);
+            return new Money(amount * Math.pow(10, currency.decimal_digits), currency);
         }
         else {
-            if (['round', 'floor', 'ceil'].indexOf(rounder) === -1 && typeof rounder !== 'function')
-                throw new TypeError('Invalid parameter rounder');
-            if (lodash_1.isString(rounder))
-                rounder = Math[rounder];
+            console.log(rounder);
+            let bigAmount = new BigNumber(amount).round(currency.decimal_digits, rounder);
+            return new Money(bigAmount.mul(Math.pow(10, currency.decimal_digits)).toString(), currency);
         }
-        let precisionMultiplier = Math.pow(10, currency.decimal_digits);
-        let resultAmount = amount * precisionMultiplier;
-        if (lodash_1.isFunction(rounder))
-            resultAmount = rounder(resultAmount);
-        return new Money(resultAmount, currency);
     }
     /**
      * Returns true if the two instances of Money are equal, false otherwise.

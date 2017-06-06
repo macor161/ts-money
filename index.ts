@@ -132,7 +132,7 @@ class Money {
      * 
      * WARNING: Does not support large numbers
      */
-    static fromDecimal(amount: number|any, currency: string|any, rounder?: string|Function): Money {
+    static fromDecimal(amount: number|any, currency: string|any, rounder?: RoundingMode): Money {
         if (isObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency')
@@ -148,28 +148,23 @@ class Money {
         if (!isPlainObject(currency))
             throw new TypeError('Invalid currency')
 
+        
         if (rounder === undefined) {
             let decimals = decimalPlaces(amount)
 
             if (decimals > currency.decimal_digits)
                 throw new Error(`The currency ${currency.code} supports only` +
                      ` ${currency.decimal_digits} decimal digits`)
-        } else {
-            if (['round', 'floor', 'ceil'].indexOf(rounder as string) === -1 && typeof rounder !== 'function')
-                throw new TypeError('Invalid parameter rounder')
 
-            if (isString(rounder))
-                rounder = Math[rounder]
+            return new Money(amount * 10 ** currency.decimal_digits, currency)
         }
+        else {
+            let bigAmount = new BigNumber(amount).round(currency.decimal_digits, rounder)
 
-        let precisionMultiplier = Math.pow(10, currency.decimal_digits)
-        let resultAmount = amount * precisionMultiplier
-
-        if (isFunction(rounder))
-            resultAmount = rounder(resultAmount)
-
-        return new Money(resultAmount, currency)
+            return new Money(bigAmount.mul(10 ** currency.decimal_digits).toString(), currency)
+        }
     }
+    
 
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
