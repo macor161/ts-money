@@ -154,12 +154,12 @@ describe('Money', function () {
         expect(second.bigAmount.equals(5)).to.be.true
     })
 
-    it('should not add different currencies', function () {
-        var first = new Money(1000, Currencies.EUR);
-        var second = new Money(500, Currencies.USD);
+    it('should not add different currencies', () => {
+        var first = new Money(1000, Currencies.EUR)
+        var second = new Money(500, Currencies.USD)
 
-        expect(first.add.bind(first, second)).to.throw(Error);
-    });
+        expect(first.add.bind(first, second)).to.throw(Error)
+    })
 
     it('should check for same type', function () {
         var first = new Money(1000, Currencies.EUR);
@@ -206,13 +206,14 @@ describe('Money', function () {
         expect(subject.lessThanOrEqual(new Money(1000, Currencies.EUR))).to.equal(true);
     });
 
-    it('should subtract same currencies correctly', function() {
-        var subject = new Money(1000, Currencies.EUR);
-        var result = subject.subtract(new Money(250, Currencies.EUR));
+    it('should subtract same currencies correctly', () => {
+        var subject = new Money(1000, Currencies.EUR)
+        var result = subject.subtract(new Money(250, Currencies.EUR))
 
-        expect(result.amount).to.equal(750);
-        expect(result.currency).to.equal('EUR');
-    });
+        expect(result.amount).to.equal(750)
+        expect(result.bigAmount.equals(7.50)).to.be.true
+        expect(result.currency).to.equal('EUR')
+    })
 
     it('should multiply correctly', function() {
         var subject = new Money(1000, Currencies.EUR);
