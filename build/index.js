@@ -28,18 +28,6 @@ let assertOperand = function (operand) {
     if (lodash_1.isNaN(parseFloat(operand)) && !isFinite(operand))
         throw new TypeError('Operand must be a number');
 };
-let getCurrencyObject = function (currency) {
-    let currencyObj = currencies_1.Currencies[currency];
-    if (currencyObj) {
-        return currencyObj;
-    }
-    else {
-        for (let key in currencies_1.Currencies) {
-            if (key.toUpperCase() === currency.toUpperCase())
-                return currencies_1.Currencies[key];
-        }
-    }
-};
 class Money {
     /**
      * Creates a new Money instance.
@@ -47,7 +35,7 @@ class Money {
      */
     constructor(amount, currency) {
         if (lodash_1.isString(currency))
-            currency = getCurrencyObject(currency);
+            currency = Money.getCurrencyObject(currency);
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (!isInt(amount) && !lodash_1.isString(amount))
@@ -82,7 +70,7 @@ class Money {
         }
         if (!lodash_1.isString(amount))
             throw new TypeError('amount must be of type string');
-        currency = lodash_1.isString(currency) ? getCurrencyObject(currency) : currency;
+        currency = lodash_1.isString(currency) ? Money.getCurrencyObject(currency) : currency;
         let bigAmount = new BigNumber(amount);
         if (bigAmount.decimalPlaces() > currency.decimal_digits) {
             throw new Error(`The currency ${currency.code} supports only` +
@@ -105,7 +93,7 @@ class Money {
             amount = amount.amount;
         }
         if (lodash_1.isString(currency))
-            currency = getCurrencyObject(currency);
+            currency = Money.getCurrencyObject(currency);
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (rounder === undefined) {
@@ -272,7 +260,19 @@ class Money {
      * Returns the full currency object
      */
     getCurrencyInfo() {
-        return getCurrencyObject(this.currency);
+        return Money.getCurrencyObject(this.currency);
+    }
+    static getCurrencyObject(currency) {
+        let currencyObj = currencies_1.Currencies[currency];
+        if (currencyObj) {
+            return currencyObj;
+        }
+        else {
+            for (let key in currencies_1.Currencies) {
+                if (key.toUpperCase() === currency.toUpperCase())
+                    return currencies_1.Currencies[key];
+            }
+        }
     }
 }
 exports.Money = Money;

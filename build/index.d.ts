@@ -109,5 +109,6 @@ declare class Money {
      * Returns the full currency object
      */
     getCurrencyInfo(): Currency;
+    static getCurrencyObject(currency: string): Currency;
 }
 export { Money, Currencies, Currency, Rounding, RoundingMode };

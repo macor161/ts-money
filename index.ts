@@ -35,19 +35,7 @@ let assertOperand = function (operand) {
         throw new TypeError('Operand must be a number')
 }
 
-let getCurrencyObject = function (currency: string): Currency {
-    let currencyObj = Currencies[currency]
 
-    if (currencyObj) {
-        return currencyObj
-    }
-    else {
-        for (let key in Currencies) {
-            if (key.toUpperCase() === currency.toUpperCase())
-                return Currencies[key]
-        }
-    }
-}
 
 
 class Money {
@@ -63,7 +51,7 @@ class Money {
      */
     constructor(amount: number|string, currency: Currency|string) {
         if (isString(currency))
-            currency = getCurrencyObject(currency)
+            currency = Money.getCurrencyObject(currency)
 
         if (!isPlainObject(currency))
             throw new TypeError('Invalid currency')
@@ -112,7 +100,7 @@ class Money {
             throw new TypeError('amount must be of type string')
 
         
-        currency = isString(currency) ? getCurrencyObject(currency) : currency as Currency
+        currency = isString(currency) ? Money.getCurrencyObject(currency) : currency as Currency
 
         let bigAmount = new BigNumber(amount)
 
@@ -143,7 +131,7 @@ class Money {
         }
 
         if (isString(currency))
-            currency = getCurrencyObject(currency)
+            currency = Money.getCurrencyObject(currency)
 
         if (!isPlainObject(currency))
             throw new TypeError('Invalid currency')
@@ -348,7 +336,22 @@ class Money {
      * Returns the full currency object
      */
     getCurrencyInfo(): Currency {
-        return getCurrencyObject(this.currency)
+        return Money.getCurrencyObject(this.currency)
+    }
+
+
+    static getCurrencyObject(currency: string): Currency {
+        let currencyObj = Currencies[currency]
+
+        if (currencyObj) {
+            return currencyObj
+        }
+        else {
+            for (let key in Currencies) {
+                if (key.toUpperCase() === currency.toUpperCase())
+                    return Currencies[key]
+            }
+        }
     }
 
 }
