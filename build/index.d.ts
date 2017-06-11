@@ -110,4 +110,4 @@ declare class Money {
      */
     getCurrencyInfo(): Currency;
 }
-export { Money, Currencies, Currency, Rounding };
+export { Money, Currencies, Currency, Rounding, RoundingMode };
