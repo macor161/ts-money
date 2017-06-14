@@ -214,7 +214,7 @@ class Money {
      * @param {Array} other
      * @returns {Array.Money}
      */
-    allocate(ratios: any[]): Money[] {
+    allocate(ratios: number[]): Money[] {
         let self = this
         let remainder = self.amount
         let results = []
