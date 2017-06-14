@@ -207,7 +207,7 @@ class Money {
     /**
      * Allocates fund bases on the ratios provided returing an array of objects as a product of the allocation.
      */
-    allocate(ratios: any[]): Money[] {
+    allocate(ratios: number[]): Money[] {
         let remainder = this.decimalAmount
         let results = []
         let total = 0
