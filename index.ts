@@ -111,10 +111,12 @@ class Money {
 
         if (rounder === undefined) {
             let decimals = decimalPlaces(amount)
-
+    
             if (decimals > currency.decimal_digits)
                 throw new Error(`The currency ${currency.code} supports only` +
-                     ` ${currency.decimal_digits} decimal digits`)
+                    ` ${currency.decimal_digits} decimal digits`)
+    
+            rounder = Math.round
         } else {
             if (['round', 'floor', 'ceil'].indexOf(rounder as string) === -1 && typeof rounder !== 'function')
                 throw new TypeError('Invalid parameter rounder')
@@ -126,8 +128,7 @@ class Money {
         let precisionMultiplier = Math.pow(10, currency.decimal_digits)
         let resultAmount = amount * precisionMultiplier
 
-        if (isFunction(rounder))
-            resultAmount = rounder(resultAmount)
+        resultAmount = (rounder as Function)(resultAmount)
 
         return new Money(resultAmount, currency)
     }

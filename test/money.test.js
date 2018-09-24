@@ -18,11 +18,13 @@ describe('Money', function () {
         var money = Money.fromDecimal(10.01, Money.EUR);
         var money1 = Money.fromDecimal(10.1, Money.EUR);
         var money2 = Money.fromDecimal(10, Money.EUR);
+        var money3 = Money.fromDecimal(8.45, Money.EUR);
 
         expect(money.amount).to.equal(1001);
         expect(money.currency).to.equal('EUR');
         expect(money1.amount).to.equal(1010);
         expect(money2.amount).to.equal(1000);
+        expect(money3.amount).to.equal(845);
     });
 
     it('should create a new instance from decimal string using `.fromDecimal()`', function () {

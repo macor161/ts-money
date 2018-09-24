@@ -85,6 +85,7 @@ class Money {
             if (decimals > currency.decimal_digits)
                 throw new Error(`The currency ${currency.code} supports only` +
                     ` ${currency.decimal_digits} decimal digits`);
+            rounder = Math.round;
         }
         else {
             if (['round', 'floor', 'ceil'].indexOf(rounder) === -1 && typeof rounder !== 'function')
@@ -94,8 +95,7 @@ class Money {
         }
         let precisionMultiplier = Math.pow(10, currency.decimal_digits);
         let resultAmount = amount * precisionMultiplier;
-        if (lodash_1.isFunction(rounder))
-            resultAmount = rounder(resultAmount);
+        resultAmount = rounder(resultAmount);
         return new Money(resultAmount, currency);
     }
     /**
