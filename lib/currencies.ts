@@ -233,6 +233,15 @@ export var Currencies = {
         "code": "CNY",
         "name_plural": "Chinese yuan"
     },
+    "CNH": {
+        "symbol": "CN¥",
+        "name": "Chinese Yuan",
+        "symbol_native": "CN¥",
+        "decimal_digits": 2,
+        "rounding": 0,
+        "code": "CNH",
+        "name_plural": "Chinese yuan"
+    },
     "COP": {
         "symbol": "CO$",
         "name": "Colombian Peso",

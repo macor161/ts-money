@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", {value: true});
 exports.Currencies = {
     "USD": {
         "symbol": "$",
@@ -233,6 +233,15 @@ exports.Currencies = {
         "decimal_digits": 2,
         "rounding": 0,
         "code": "CNY",
+        "name_plural": "Chinese yuan"
+    },
+    "CNH": {
+        "symbol": "CN¥",
+        "name": "Chinese Yuan",
+        "symbol_native": "CN¥",
+        "decimal_digits": 2,
+        "rounding": 0,
+        "code": "CNH",
         "name_plural": "Chinese yuan"
     },
     "COP": {
