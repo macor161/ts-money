@@ -4,7 +4,7 @@ TS Money is a Typescript port of the great [js-money](https://www.npmjs.com/pack
 
 ## Install
 
-    $ npm install ts-money
+    $ npm install @eresponseservices/ts-money
 
 
 ## Usage
