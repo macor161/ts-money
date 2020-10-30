@@ -52,7 +52,6 @@ jobs:
           always-auth: true
           node-version: '12.x'
           registry-url: 'https://npm.pkg.github.com'
-      - run: npm config set python python2.7
       - run: npm install --ignore-scripts
       - run: yarn test
       - run: yarn build
