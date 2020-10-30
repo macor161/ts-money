@@ -1,0 +1,21 @@
+name: Integration Workflow
+
+on: [pull_request]
+
+jobs:
+  build:
+    name: Run Yarn Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: '12.x'
+          registry-url: 'https://npm.pkg.github.com'
+      - run: npm config set python python2.7
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: npm install --ignore-scripts
+      - run: yarn test
