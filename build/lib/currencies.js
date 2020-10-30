@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {value: true});
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Currencies = {
     "USD": {
         "symbol": "$",
@@ -351,6 +351,15 @@ exports.Currencies = {
         "rounding": 0,
         "code": "ETB",
         "name_plural": "Ethiopian birrs"
+    },
+    "FJD": {
+        "symbol": "$",
+        "name": "Fiji Dollar",
+        "symbol_native": "$",
+        "decimal_digits": 2,
+        "rounding": 0,
+        "code": "FJD",
+        "name_plural": "Fiji dollars"
     },
     "GBP": {
         "symbol": "£",

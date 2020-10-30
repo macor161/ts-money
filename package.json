@@ -1,39 +1,48 @@
 {
-  "name": "ts-money",
-  "description": "Typescript port of js-money. Implementation of the Money value object.",
-  "version": "0.4.6",
-  "main": "build/index.js",
-  "typings": "build/index.d.ts",
-  "author": {
-    "name": "Mathew Cormier",
-    "email": "mathew.corm@gmail.com"
-  },
-  "keywords": [
-    "money",
-    "javascript",
-    "currency",
-    "typescript"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/macor161/ts-money.git"
-  },
-  "bugs": {
-    "url": "https://github.com/macor161/ts-money/issues"
-  },
-  "dependencies": {
-    "lodash": "^4.17.5"
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.14.64",
-    "@types/node": "^7.0.23",
-    "chai": "1.x.x",
-    "mocha": "1.x.x",
-    "typescript": "^2.3.4"
-  },
-  "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
-  }
+    "name": "@eresponseservices/ts-money",
+    "description": "Typescript port of js-money. Implementation of the Money value object.",
+    "version": "0.4.6",
+    "main": "build/index.js",
+    "typings": "build/index.d.ts",
+    "author": {
+        "name": "Mathew Cormier",
+        "email": "mathew.corm@gmail.com"
+    },
+    "maintainers": [
+        {
+            "name": "Gabriel A. Quiles-Perez",
+            "email": "g.quiles-perez@chargebacks911.com"
+        }
+    ],
+    "keywords": [
+        "money",
+        "javascript",
+        "currency",
+        "typescript"
+    ],
+    "license": "MIT",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/eresponseservices"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/eresponseservices/ts-money.git"
+    },
+    "bugs": {
+        "url": "https://github.com/eresponseservices/ts-money/issues"
+    },
+    "dependencies": {
+        "lodash": "^4.17.5"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.64",
+        "@types/node": "^7.0.23",
+        "chai": "1.x.x",
+        "mocha": "1.x.x",
+        "typescript": "^2.3.4"
+    },
+    "scripts": {
+        "build": "./node_modules/.bin/tsc",
+        "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+    }
 }

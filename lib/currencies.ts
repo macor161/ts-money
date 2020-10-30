@@ -350,6 +350,15 @@ export var Currencies = {
         "code": "ETB",
         "name_plural": "Ethiopian birrs"
     },
+    "FJD": {
+        "symbol": "$",
+        "name": "Fiji Dollar",
+        "symbol_native": "$",
+        "decimal_digits": 2,
+        "rounding": 0,
+        "code": "FJD",
+        "name_plural": "Fiji dollars"
+    },
     "GBP": {
         "symbol": "£",
         "name": "British Pound Sterling",

@@ -350,6 +350,15 @@ export declare var Currencies: {
         "code": string;
         "name_plural": string;
     };
+    "FJD": {
+        "symbol": string;
+        "name": string;
+        "symbol_native": string;
+        "decimal_digits": number;
+        "rounding": number;
+        "code": string;
+        "name_plural": string;
+    };
     "GBP": {
         "symbol": string;
         "name": string;
