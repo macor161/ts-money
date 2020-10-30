@@ -53,8 +53,6 @@ jobs:
           node-version: '12.x'
           registry-url: 'https://npm.pkg.github.com'
       - run: npm config set python python2.7
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm install --ignore-scripts
       - run: yarn test
       - run: yarn build
