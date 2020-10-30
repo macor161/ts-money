@@ -1,7 +1,5 @@
 # TS Money
 
-[![NPM version][npm-image]][npm-url]
-
 TS Money is a Typescript port of the great [js-money](https://www.npmjs.com/package/js-money) package, which is an implementation of Martin Fowlers [Money pattern](http://martinfowler.com/eaaCatalog/money.html). 
 
 ## Install
