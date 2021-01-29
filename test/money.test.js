@@ -234,6 +234,19 @@ describe('Money', function () {
        expect(results[2].currency).to.equal('EUR');
     });
 
+    it('should allocate correctly with a zero rate', function() {
+       var subject = new Money(29900, Money.EUR);
+       var results = subject.allocate([265.09, 0, 33.91]);
+
+       expect(results.length).to.equal(3);
+       expect(results[0].amount).to.equal(26509);
+       expect(results[0].currency).to.equal('EUR');
+       expect(results[1].amount).to.equal(0);
+       expect(results[1].currency).to.equal('EUR');
+       expect(results[2].amount).to.equal(3391);
+       expect(results[2].currency).to.equal('EUR');
+    });
+
     it('zero check works correctly', function() {
         var subject = new Money(1000, 'EUR');
         var subject1 = new Money(0, 'EUR');

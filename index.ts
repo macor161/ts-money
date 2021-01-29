@@ -232,6 +232,9 @@ class Money {
         })
 
         for (let i = 0; remainder > 0; i++) {
+            while(results[i].amount === 0) {
+                i++
+            }
             results[i] = new Money(results[i].amount + 1, results[i].currency)
             remainder--
         }
