@@ -1,4 +1,4 @@
-import { extend, isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
+import { isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
 import { Currency } from './lib/currency'
 import { Currencies } from './lib/currencies'
 
@@ -47,8 +47,12 @@ let getCurrencyObject = function (currency: string): Currency {
     }
 }
 
+interface IMoney {
+    amount: number
+    currency: string
+}
 
-class Money {
+class Money implements IMoney {
 
     amount: number
     currency: string
@@ -78,7 +82,7 @@ class Money {
         Object.freeze(this)
     }
 
-    static fromInteger(amount: number|any, currency?: string): Money {
+    static fromInteger(amount: number | Partial<IMoney>, currency?: string): Money {
         if (isObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency')
@@ -93,7 +97,7 @@ class Money {
         return new Money(amount, currency)
     }
 
-    static fromDecimal(amount: number|any, currency: string|any, rounder?: string|Function): Money {
+    static fromDecimal(amount: number | Partial<IMoney>, currency: string|any, rounder?: string|Function): Money {
         if (isObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency')
@@ -386,4 +390,4 @@ class Money {
 
 Object.assign(Money, Currencies)
 
-export { Money, Currencies, Currency }
+export { IMoney, Money, Currencies, Currency }

@@ -1,3 +1,4 @@
+const { expect } = require('chai');
 var { Money, Currencies } = require('../build/index')
 
 describe('Money', function () {
@@ -122,8 +123,8 @@ describe('Money', function () {
     it('should serialize correctly', function() {
         var money = new Money(1042, Money.EUR);
 
-        expect(money.amount).to.be.a.number;
-        expect(money.currency).to.be.a.string;
+        expect(money.amount).to.be.a('number');
+        expect(money.currency).to.be.a('string');
     });
 
     it('should check for decimal precision', function() {

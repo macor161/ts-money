@@ -5,10 +5,11 @@
         "outDir": "./build/",
         "module": "commonjs",
         "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
         "noImplicitAny": false,
         "removeComments": false,
         "moduleResolution": "node",
-        "sourceMap": false,
         "inlineSources": false,
         "baseUrl": ".",
         "paths": {

@@ -7,3 +7,4 @@ export interface Currency {
     code: string;
     name_plural: string;
 }
+//# sourceMappingURL=currency.d.ts.map

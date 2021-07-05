@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Currencies = exports.Money = void 0;
 const lodash_1 = require("lodash");
 const currencies_1 = require("./lib/currencies");
-exports.Currencies = currencies_1.Currencies;
+Object.defineProperty(exports, "Currencies", { enumerable: true, get: function () { return currencies_1.Currencies; } });
 let isInt = function (n) {
     return Number(n) === n && n % 1 === 0;
 };
@@ -314,3 +315,4 @@ class Money {
 }
 exports.Money = Money;
 Object.assign(Money, currencies_1.Currencies);
+//# sourceMappingURL=index.js.map
