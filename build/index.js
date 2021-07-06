@@ -31,7 +31,7 @@ let getCurrencyObject = function (currency) {
         return currencyObj;
     }
     else {
-        for (let key in currencies_1.Currencies) {
+        for (const key in currencies_1.Currencies) {
             if (key.toUpperCase() === currency.toUpperCase())
                 return currencies_1.Currencies[key];
         }
@@ -82,7 +82,7 @@ class Money {
         if (!lodash_1.isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (rounder === undefined) {
-            let decimals = decimalPlaces(amount);
+            const decimals = decimalPlaces(amount);
             if (decimals > currency.decimal_digits)
                 throw new Error(`The currency ${currency.code} supports only` +
                     ` ${currency.decimal_digits} decimal digits`);
@@ -94,9 +94,8 @@ class Money {
             if (lodash_1.isString(rounder))
                 rounder = Math[rounder];
         }
-        let precisionMultiplier = Math.pow(10, currency.decimal_digits);
-        let resultAmount = amount * precisionMultiplier;
-        resultAmount = rounder(resultAmount);
+        const precisionMultiplier = Math.pow(10, currency.decimal_digits);
+        const resultAmount = rounder(amount * precisionMultiplier);
         return new Money(resultAmount, currency);
     }
     /**
@@ -106,7 +105,7 @@ class Money {
      * @returns {Boolean}
      */
     equals(other) {
-        let self = this;
+        const self = this;
         assertType(other);
         return self.amount === other.amount &&
             self.currency === other.currency;
@@ -118,7 +117,7 @@ class Money {
      * @returns {Money}
      */
     add(other) {
-        let self = this;
+        const self = this;
         assertType(other);
         assertSameCurrency(self, other);
         return new Money(self.amount + other.amount, self.currency);
@@ -130,7 +129,7 @@ class Money {
      * @returns {Money}
      */
     subtract(other) {
-        let self = this;
+        const self = this;
         assertType(other);
         assertSameCurrency(self, other);
         return new Money(self.amount - other.amount, self.currency);
@@ -146,7 +145,7 @@ class Money {
         if (!lodash_1.isFunction(fn))
             fn = Math.round;
         assertOperand(multiplier);
-        let amount = fn(this.amount * multiplier);
+        const amount = fn(this.amount * multiplier);
         return new Money(amount, this.currency);
     }
     /**
@@ -160,7 +159,7 @@ class Money {
         if (!lodash_1.isFunction(fn))
             fn = Math.round;
         assertOperand(divisor);
-        let amount = fn(this.amount / divisor);
+        const amount = fn(this.amount / divisor);
         return new Money(amount, this.currency);
     }
     /**
@@ -170,7 +169,7 @@ class Money {
      * @returns {Array.Money}
      */
     allocate(ratios) {
-        let self = this;
+        const self = this;
         let remainder = self.amount;
         let results = [];
         let total = 0;
@@ -195,7 +194,7 @@ class Money {
      * @returns {Number}
      */
     compare(other) {
-        let self = this;
+        const self = this;
         assertType(other);
         assertSameCurrency(self, other);
         if (self.amount === other.amount)
@@ -276,7 +275,7 @@ class Money {
      * @returns {string}
      */
     toString() {
-        let currency = getCurrencyObject(this.currency);
+        const currency = getCurrencyObject(this.currency);
         return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits);
     }
     /**
