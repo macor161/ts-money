@@ -40,7 +40,7 @@ let getCurrencyObject = function (currency: string): Currency {
         return currencyObj
     }
     else {
-        for (let key in Currencies) {
+        for (const key in Currencies) {
             if (key.toUpperCase() === currency.toUpperCase())
                 return Currencies[key]
         }
@@ -114,7 +114,7 @@ class Money implements IMoney {
             throw new TypeError('Invalid currency')
 
         if (rounder === undefined) {
-            let decimals = decimalPlaces(amount)
+            const decimals = decimalPlaces(amount)
     
             if (decimals > currency.decimal_digits)
                 throw new Error(`The currency ${currency.code} supports only` +
@@ -129,10 +129,8 @@ class Money implements IMoney {
                 rounder = Math[rounder]
         }
 
-        let precisionMultiplier = Math.pow(10, currency.decimal_digits)
-        let resultAmount = amount * precisionMultiplier
-
-        resultAmount = (rounder as Function)(resultAmount)
+        const precisionMultiplier = Math.pow(10, currency.decimal_digits)
+        const resultAmount = (rounder as Function)(amount * precisionMultiplier)
 
         return new Money(resultAmount, currency)
     }
@@ -144,7 +142,7 @@ class Money implements IMoney {
      * @returns {Boolean}
      */
     equals(other: Money): boolean {
-        let self = this
+        const self = this
         assertType(other)
 
         return self.amount === other.amount &&
@@ -158,7 +156,7 @@ class Money implements IMoney {
      * @returns {Money}
      */
     add(other: Money): Money {
-        let self = this
+        const self = this
         assertType(other)
         assertSameCurrency(self, other)
 
@@ -172,7 +170,7 @@ class Money implements IMoney {
      * @returns {Money}
      */
     subtract(other: Money): Money {
-        let self = this
+        const self = this
         assertType(other)
         assertSameCurrency(self, other)
 
@@ -191,7 +189,7 @@ class Money implements IMoney {
             fn = Math.round
 
         assertOperand(multiplier)
-        let amount = fn(this.amount * multiplier)
+        const amount = fn(this.amount * multiplier)
 
         return new Money(amount, this.currency)
     }
@@ -208,7 +206,7 @@ class Money implements IMoney {
             fn = Math.round
 
         assertOperand(divisor)
-        let amount = fn(this.amount / divisor)
+        const amount = fn(this.amount / divisor)
 
         return new Money(amount, this.currency)
     }
@@ -220,7 +218,7 @@ class Money implements IMoney {
      * @returns {Array.Money}
      */
     allocate(ratios: number[]): Money[] {
-        let self = this
+        const self = this
         let remainder = self.amount
         let results = []
         let total = 0
@@ -250,7 +248,7 @@ class Money implements IMoney {
      * @returns {Number}
      */
     compare(other: Money): number {
-        let self = this
+        const self = this
 
         assertType(other)
         assertSameCurrency(self, other)
@@ -343,7 +341,7 @@ class Money implements IMoney {
      * @returns {string}
      */
     toString(): string {
-        let currency = getCurrencyObject(this.currency)
+        const currency = getCurrencyObject(this.currency)
         return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits)
     }
 
