@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Currencies = void 0;
 exports.Currencies = {
     "USD": {
         "symbol": "$",
@@ -1082,3 +1083,4 @@ exports.Currencies = {
         "name_plural": "Zambian kwachas"
     }
 };
+//# sourceMappingURL=currencies.js.map

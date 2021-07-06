@@ -1,4 +1,4 @@
-import { extend, isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
+import { isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
 import { Currency } from './lib/currency'
 import { Currencies } from './lib/currencies'
 
@@ -40,15 +40,19 @@ let getCurrencyObject = function (currency: string): Currency {
         return currencyObj
     }
     else {
-        for (let key in Currencies) {
+        for (const key in Currencies) {
             if (key.toUpperCase() === currency.toUpperCase())
                 return Currencies[key]
         }
     }
 }
 
+interface IMoney {
+    amount: number
+    currency: string
+}
 
-class Money {
+class Money implements IMoney {
 
     amount: number
     currency: string
@@ -78,7 +82,7 @@ class Money {
         Object.freeze(this)
     }
 
-    static fromInteger(amount: number|any, currency?: string): Money {
+    static fromInteger(amount: number | Partial<IMoney>, currency?: string): Money {
         if (isObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency')
@@ -93,7 +97,7 @@ class Money {
         return new Money(amount, currency)
     }
 
-    static fromDecimal(amount: number|any, currency: string|any, rounder?: string|Function): Money {
+    static fromDecimal(amount: number | Partial<IMoney>, currency: string|any, rounder?: string|Function): Money {
         if (isObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency')
@@ -110,7 +114,7 @@ class Money {
             throw new TypeError('Invalid currency')
 
         if (rounder === undefined) {
-            let decimals = decimalPlaces(amount)
+            const decimals = decimalPlaces(amount)
     
             if (decimals > currency.decimal_digits)
                 throw new Error(`The currency ${currency.code} supports only` +
@@ -125,10 +129,8 @@ class Money {
                 rounder = Math[rounder]
         }
 
-        let precisionMultiplier = Math.pow(10, currency.decimal_digits)
-        let resultAmount = amount * precisionMultiplier
-
-        resultAmount = (rounder as Function)(resultAmount)
+        const precisionMultiplier = Math.pow(10, currency.decimal_digits)
+        const resultAmount = (rounder as Function)(amount * precisionMultiplier)
 
         return new Money(resultAmount, currency)
     }
@@ -140,7 +142,7 @@ class Money {
      * @returns {Boolean}
      */
     equals(other: Money): boolean {
-        let self = this
+        const self = this
         assertType(other)
 
         return self.amount === other.amount &&
@@ -154,7 +156,7 @@ class Money {
      * @returns {Money}
      */
     add(other: Money): Money {
-        let self = this
+        const self = this
         assertType(other)
         assertSameCurrency(self, other)
 
@@ -168,7 +170,7 @@ class Money {
      * @returns {Money}
      */
     subtract(other: Money): Money {
-        let self = this
+        const self = this
         assertType(other)
         assertSameCurrency(self, other)
 
@@ -187,7 +189,7 @@ class Money {
             fn = Math.round
 
         assertOperand(multiplier)
-        let amount = fn(this.amount * multiplier)
+        const amount = fn(this.amount * multiplier)
 
         return new Money(amount, this.currency)
     }
@@ -204,7 +206,7 @@ class Money {
             fn = Math.round
 
         assertOperand(divisor)
-        let amount = fn(this.amount / divisor)
+        const amount = fn(this.amount / divisor)
 
         return new Money(amount, this.currency)
     }
@@ -216,7 +218,7 @@ class Money {
      * @returns {Array.Money}
      */
     allocate(ratios: number[]): Money[] {
-        let self = this
+        const self = this
         let remainder = self.amount
         let results = []
         let total = 0
@@ -246,7 +248,7 @@ class Money {
      * @returns {Number}
      */
     compare(other: Money): number {
-        let self = this
+        const self = this
 
         assertType(other)
         assertSameCurrency(self, other)
@@ -339,7 +341,7 @@ class Money {
      * @returns {string}
      */
     toString(): string {
-        let currency = getCurrencyObject(this.currency)
+        const currency = getCurrencyObject(this.currency)
         return (this.amount / Math.pow(10, currency.decimal_digits)).toFixed(currency.decimal_digits)
     }
 
@@ -386,4 +388,4 @@ class Money {
 
 Object.assign(Money, Currencies)
 
-export { Money, Currencies, Currency }
+export { IMoney, Money, Currencies, Currency }

@@ -1,6 +1,10 @@
 import { Currency } from './lib/currency';
 import { Currencies } from './lib/currencies';
-declare class Money {
+interface IMoney {
+    amount: number;
+    currency: string;
+}
+declare class Money implements IMoney {
     amount: number;
     currency: string;
     /**
@@ -13,8 +17,8 @@ declare class Money {
      * @constructor
      */
     constructor(amount: number, currency: any | string);
-    static fromInteger(amount: number | any, currency?: string): Money;
-    static fromDecimal(amount: number | any, currency: string | any, rounder?: string | Function): Money;
+    static fromInteger(amount: number | Partial<IMoney>, currency?: string): Money;
+    static fromDecimal(amount: number | Partial<IMoney>, currency: string | any, rounder?: string | Function): Money;
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
      *
@@ -150,4 +154,5 @@ declare class Money {
      */
     getCurrencyInfo(): Currency;
 }
-export { Money, Currencies, Currency };
+export { IMoney, Money, Currencies, Currency };
+//# sourceMappingURL=index.d.ts.map
