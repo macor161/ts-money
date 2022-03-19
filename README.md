@@ -55,10 +55,26 @@ const moreDollars = Money.fromDecimal(15.3456, Currencies.USD)
 const someMoreDollars = Money.fromDecimal(15.12345, 'USD', Math.ceil)
 ```
 
-The `Currency` object hold the following properties
+The `Currency` interface hold the following properties:
 
 ```typescript
-{
+interface Currency {
+    symbol: string
+    name: string
+    symbol_native: string
+    decimal_digits: number
+    rounding: number
+    code: string
+    name_plural: string
+}
+```
+
+Ex:
+
+```typescript
+import { Currency } from 'ts-money'
+
+const usd: Currency = {
     "symbol": "$",
     "name": "US Dollar",
     "symbol_native": "$",
@@ -142,7 +158,7 @@ Some changes have been made compared with the javascript version:
 
 ### Currencies object
 
-Currencies are now in a standalone object. This has many benefits, like preventing autocomplete "pollution" of the Money class and enabling easy extensibility:
+Currencies are now exported in a standalone object:
 
 ```typescript
 import { Money, Currencies } from 'ts-money'
