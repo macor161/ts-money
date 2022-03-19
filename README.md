@@ -39,17 +39,17 @@ Instances of Money are immutable and each arithmetic operation will return a new
 When using decimals the library will allow only decimals with the precision allowed by the currencies smallest unit.
 
 ```javascript
-var fiveEur = new Money(500, Currencies.EUR);
-var tenDollars = Money.fromInteger({ amount: 1000, currency: Currencies.USD });
-var someDollars = Money.fromDecimal(15.25, 'USD');
+const fiveEur = new Money(500, Currencies.EUR);
+const tenDollars = Money.fromInteger({ amount: 1000, currency: Currencies.USD });
+const someDollars = Money.fromDecimal(15.25, 'USD');
 
 // the following will fail and throw an Error since USD allows for 2 decimals
-var moreDollars = Money.fromDecimal(15.3456, Currencies.USD);
+const moreDollars = Money.fromDecimal(15.3456, Currencies.USD);
 // but with rounder function provider the following will work
-var someMoreDollars = Money.fromDecimal(15.12345, 'USD', Math.ceil);
+const someMoreDollars = Money.fromDecimal(15.12345, 'USD', Math.ceil);
 ```
 
-The currency object hold the following properties
+The `Currency` object hold the following properties
 
 ```javascript
     {
@@ -68,7 +68,7 @@ The currency object hold the following properties
 Arithmetic operations involving multiple objects are only possible on instances with the same currency and will throw an Error otherwise.
 
 ```javascript
-var fiveEur = new Money(500, Currencies.EUR); // 5 EUR
+const fiveEur = new Money(500, Currencies.EUR); // 5 EUR
 
 // add
 fiveEur.add(new Money(250, Currencies.EUR)); // 7.50 EUR
@@ -90,15 +90,15 @@ fiveEur.divide(2.3456, Math.ceil); // 2.14 EUR
 Will divide the funds based on the ratio without loosing any pennies. 
 
 ```javascript
-var tenEur = new Money(1000, Currencies.EUR);
+const tenEur = new Money(1000, Currencies.EUR);
 
 // divide 10 EUR into 3 parts
-var shares = tenEur.allocate([1,1,1]); 
+const shares = tenEur.allocate([1,1,1]); 
 // returns an array of Money instances worth [334,333,333]
 
 // split 5 EUR 70/30
-var fiveEur = new Money(500, Currencies.EUR);
-var shares = fiveEur.allocate([70,30]);
+const fiveEur = new Money(500, Currencies.EUR);
+const shares = fiveEur.allocate([70,30]);
 // returns an array of money [350,150]
 
 ```
@@ -109,10 +109,10 @@ Two objects are equal when they are of the same amount and currency.
 Trying to compare 2 objects with different currencies will throw an Error.
 
 ```javascript
-var fiveEur = new Money(500, Currencies.EUR);
-var anotherFiveEur = new Money(500, Currencies.EUR);
-var sevenEur = new Money(700, Currencies.EUR);
-var fiveDollars = new Money(500, Currencies.USD);
+const fiveEur = new Money(500, Currencies.EUR);
+const anotherFiveEur = new Money(500, Currencies.EUR);
+const sevenEur = new Money(700, Currencies.EUR);
+const fiveDollars = new Money(500, Currencies.USD);
 
 fiveEur.equals(fiveDollars); // return false
 fiveEur.equals(anotherFiveEur); // return true
@@ -136,7 +136,7 @@ Some changes have been made compared with the javascript version:
 
 ### Currencies object
 
-Currencies are now in a stand-alone object. This has many benefits, like preventing autocomplete "pollution" of the Money class and enabling easy extensibility:
+Currencies are now in a standalone object. This has many benefits, like preventing autocomplete "pollution" of the Money class and enabling easy extensibility:
 
 ```javascript
 import { Money, Currencies } from 'ts-money'
@@ -151,9 +151,9 @@ Currencies.LTC = {
     name_plural: "Litecoins"    
 }
 
-let m1 = new Money(12, 'LTC')
-let m2 = new Money(234, Currencies.USD)
-let m3 = new Money(543, Currencies.LTC)
+const m1 = new Money(12, 'LTC')
+const m2 = new Money(234, Currencies.USD)
+const m3 = new Money(543, Currencies.LTC)
 
 ```
 
@@ -162,16 +162,19 @@ let m3 = new Money(543, Currencies.LTC)
 Money accepts currencies as case insensitive:
 
 ```javascript
-let m1 = new Money(1, 'usd')
-let m2 = new Money(2, 'USD')
-let m3 = new Money(3, 'Usd')
+const m1 = new Money(1, 'usd')
+const m2 = new Money(2, 'USD')
+const m3 = new Money(3, 'Usd')
 ```
+
 
 
 ## Tests
 
     $ npm install
     $ npm test
+
+
 
 ## License
 
