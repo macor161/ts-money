@@ -1,6 +1,9 @@
 # TS Money
 
-[![NPM version][npm-image]][npm-url]
+[![NPM version](https://img.shields.io/npm/v/ts-money.svg)](https://www.npmjs.com/package/ts-money)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![](https://img.shields.io/npm/dt/ts-money.svg?style=flat-square)](https://www.npmjs.com/package/ts-money)
+
 
 TS Money is a Typescript port of the great [js-money](https://www.npmjs.com/package/js-money) package, which is an implementation of Martin Fowlers [Money pattern](http://martinfowler.com/eaaCatalog/money.html). 
 
@@ -22,9 +25,9 @@ import { Money, Currencies } from 'ts-money'
 or in javascript:
 
 ```javascript
-var TsMoney = require('ts-money')
-var Money = TsMoney.Money
-var Currencies = TsMoney.Currencies
+const TsMoney = require('ts-money')
+const Money = TsMoney.Money
+const Currencies = TsMoney.Currencies
 ```
 
 ### Creating a new instance
@@ -54,15 +57,15 @@ const someMoreDollars = Money.fromDecimal(15.12345, 'USD', Math.ceil);
 The `Currency` object hold the following properties
 
 ```javascript
-    {
-        "symbol": "$",
-        "name": "US Dollar",
-        "symbol_native": "$",
-        "decimal_digits": 2,
-        "rounding": 0,
-        "code": "USD",
-        "name_plural": "US dollars"
-    }
+{
+    "symbol": "$",
+    "name": "US Dollar",
+    "symbol_native": "$",
+    "decimal_digits": 2,
+    "rounding": 0,
+    "code": "USD",
+    "name_plural": "US dollars"
+}
 ```
 
 ### Basic arithmetics
@@ -189,10 +192,21 @@ npm run build
 npm test
 ```
 
+## 🎁 Thank you for your donations 
+
+> TS Money is an **open source** library and is completely **free** to use. 
+> 
+> If you find this project useful and would like to support its development, consider making a donation. 
+
+
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/1A71NTVtocr1WG6qFuQjhbVsEwXC7pKB5R)](https://en.cryptobadges.io/donate/1A71NTVtocr1WG6qFuQjhbVsEwXC7pKB5R)
+
+[![Donate with Ethereum](https://en.cryptobadges.io/badge/big/0x5cE72fB54733a15640AD23f8c8c296AadEeC53Cb)](https://en.cryptobadges.io/donate/0x5cE72fB54733a15640AD23f8c8c296AadEeC53Cb)
+
+[![Donate with Monero](https://en.cryptobadges.io/badge/big/4AzAgF56m5ihvDR5ctPVUE1RH78JEMsBHc63yYokHXbYGUCWsxphsmsgKzUkoQKmk7Tv6CSr3MosZ1wTR1wfHGt2187nHgj)](https://en.cryptobadges.io/donate/4AzAgF56m5ihvDR5ctPVUE1RH78JEMsBHc63yYokHXbYGUCWsxphsmsgKzUkoQKmk7Tv6CSr3MosZ1wTR1wfHGt2187nHgj)
+
+
 
 ## License
 
 [The MIT License](http://opensource.org/licenses/MIT)
-
-[npm-url]: https://npmjs.org/package/ts-money
-[npm-image]: http://img.shields.io/npm/v/ts-money.svg
