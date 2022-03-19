@@ -6,7 +6,9 @@ TS Money is a Typescript port of the great [js-money](https://www.npmjs.com/pack
 
 ## Install
 
-    $ npm install ts-money
+```sh
+npm install ts-money
+```
 
 
 ## Usage
@@ -167,13 +169,25 @@ const m2 = new Money(2, 'USD')
 const m3 = new Money(3, 'Usd')
 ```
 
+## Development
 
+### Install dependencies
 
-## Tests
+```sh
+npm install
+```
 
-    $ npm install
-    $ npm test
+### Build library
 
+```sh
+npm run build
+```
+
+### Run tests
+
+```sh
+npm test
+```
 
 
 ## License
