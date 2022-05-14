@@ -36,6 +36,9 @@ let getCurrencyObject = function (currency) {
         }
     }
 };
+function isAmountObject(amount) {
+    return lodash_1.isObject(amount);
+}
 class Money {
     /**
      * Creates a new Money instance.
@@ -58,7 +61,7 @@ class Money {
         Object.freeze(this);
     }
     static fromInteger(amount, currency) {
-        if (lodash_1.isObject(amount)) {
+        if (isAmountObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency');
             currency = amount.currency;
@@ -69,7 +72,7 @@ class Money {
         return new Money(amount, currency);
     }
     static fromDecimal(amount, currency, rounder) {
-        if (lodash_1.isObject(amount)) {
+        if (isAmountObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency');
             rounder = currency;

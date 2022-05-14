@@ -1,8 +1,13 @@
-import { extend, isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
+import { isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
 import { Currency } from './lib/currency'
 import { Currencies } from './lib/currencies'
 
+export type Rounder = 'round' | 'floor' | 'ceil' | Function;
 
+export interface Amount {
+    amount: number;
+    currency: string | Currency
+}
 
 let isInt = function (n) {
     return Number(n) === n && n % 1 === 0
@@ -47,6 +52,9 @@ let getCurrencyObject = function (currency: string): Currency {
     }
 }
 
+function isAmountObject(amount: number | Amount): amount is Amount {
+    return isObject(amount);
+}
 
 class Money {
 
@@ -63,7 +71,7 @@ class Money {
      * @returns {Money}
      * @constructor
      */
-    constructor(amount: number, currency: any|string) {
+    constructor(amount: number, currency: Currency | string) {
         if (isString(currency))
             currency = getCurrencyObject(currency)
 
@@ -78,8 +86,10 @@ class Money {
         Object.freeze(this)
     }
 
-    static fromInteger(amount: number|any, currency?: string): Money {
-        if (isObject(amount)) {
+    static fromInteger(amount: Amount): Money;
+    static fromInteger(amount: number, currency: Currency | string): Money
+    static fromInteger(amount: number | Amount, currency?: Currency | string): Money {
+        if (isAmountObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency')
 
@@ -93,8 +103,10 @@ class Money {
         return new Money(amount, currency)
     }
 
-    static fromDecimal(amount: number|any, currency: string|any, rounder?: string|Function): Money {
-        if (isObject(amount)) {
+    static fromDecimal(amount: Amount, rounder?: Rounder): Money;
+    static fromDecimal(amount: number, currency: string | Currency, rounder?: Rounder): Money;
+    static fromDecimal(amount: number | Amount, currency: string | Currency | any, rounder?: Rounder): Money {
+        if (isAmountObject(amount)) {
             if (amount.amount === undefined || amount.currency === undefined)
                 throw new TypeError('Missing required parameters amount,currency')
 
@@ -111,11 +123,11 @@ class Money {
 
         if (rounder === undefined) {
             let decimals = decimalPlaces(amount)
-    
+
             if (decimals > currency.decimal_digits)
                 throw new Error(`The currency ${currency.code} supports only` +
                     ` ${currency.decimal_digits} decimal digits`)
-    
+
             rounder = Math.round
         } else {
             if (['round', 'floor', 'ceil'].indexOf(rounder as string) === -1 && typeof rounder !== 'function')

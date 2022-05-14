@@ -1,4 +1,6 @@
-export var Currencies = {
+import { Currency } from './currency';
+
+export const Currencies: Record<string, Currency> = {
     "USD": {
         "symbol": "$",
         "name": "US Dollar",
@@ -1080,5 +1082,3 @@ export var Currencies = {
         "name_plural": "Zambian kwachas"
     }
 }
-
-
