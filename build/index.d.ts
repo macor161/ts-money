@@ -1,5 +1,10 @@
 import { Currency } from './lib/currency';
 import { Currencies } from './lib/currencies';
+export declare type Rounder = 'round' | 'floor' | 'ceil' | Function;
+export interface Amount {
+    amount: number;
+    currency: string | Currency;
+}
 declare class Money {
     amount: number;
     currency: string;
@@ -12,9 +17,10 @@ declare class Money {
      * @returns {Money}
      * @constructor
      */
-    constructor(amount: number, currency: any | string);
-    static fromInteger(amount: number | any, currency?: string): Money;
-    static fromDecimal(amount: number | any, currency: string | any, rounder?: string | Function): Money;
+    constructor(amount: number, currency: Currency | string);
+    static fromInteger(amount: number | Amount, currency?: Currency | string): Money;
+    static fromDecimal(amount: Amount, rounder?: Rounder): Money;
+    static fromDecimal(amount: number, currency: string | Currency, rounder?: Rounder): Money;
     /**
      * Returns true if the two instances of Money are equal, false otherwise.
      *
