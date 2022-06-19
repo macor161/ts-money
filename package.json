@@ -29,7 +29,7 @@
     "@types/lodash": "^4.14.64",
     "@types/node": "^7.0.23",
     "chai": "1.x.x",
-    "mocha": "1.x.x",
+    "mocha": "^10.0.0",
     "typescript": "^2.3.4"
   },
   "scripts": {
