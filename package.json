@@ -34,6 +34,6 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+    "test": "mocha --reporter spec --require test/bootstrap/node test/*.test.js"
   }
 }
