@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_1 = require("lodash");
 const currencies_1 = require("./lib/currencies");
 exports.Currencies = currencies_1.Currencies;
 let isInt = function (n) {
@@ -21,7 +20,7 @@ let assertType = function (other) {
         throw new TypeError('Instance of Money required');
 };
 let assertOperand = function (operand) {
-    if (lodash_1.isNaN(parseFloat(operand)) && !isFinite(operand))
+    if (Number.isNaN(parseFloat(operand)) && !isFinite(operand))
         throw new TypeError('Operand must be a number');
 };
 let getCurrencyObject = function (currency) {
@@ -36,8 +35,34 @@ let getCurrencyObject = function (currency) {
         }
     }
 };
+let isObjectLike = (value) => {
+    return value !== null && typeof value === 'object';
+};
+let isObject = (value) => {
+    const type = typeof value;
+    return value != null && (type === 'object' || type === 'function');
+};
+let getTag = (value) => {
+    if (value == null) {
+        return value === undefined ? '[object Undefined]' : '[object Null]';
+    }
+    return toString.call(value);
+};
+let isPlainObject = (value) => {
+    if (!isObjectLike(value) || getTag(value) != '[object Object]') {
+        return false;
+    }
+    if (Object.getPrototypeOf(value) === null) {
+        return true;
+    }
+    let proto = value;
+    while (Object.getPrototypeOf(proto) !== null) {
+        proto = Object.getPrototypeOf(proto);
+    }
+    return Object.getPrototypeOf(value) === proto;
+};
 function isAmountObject(amount) {
-    return lodash_1.isObject(amount);
+    return isObject(amount);
 }
 class Money {
     /**
@@ -50,9 +75,9 @@ class Money {
      * @constructor
      */
     constructor(amount, currency) {
-        if (lodash_1.isString(currency))
+        if (typeof currency === 'string')
             currency = getCurrencyObject(currency);
-        if (!lodash_1.isPlainObject(currency))
+        if (!isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (!isInt(amount))
             throw new TypeError('Amount must be an integer');
@@ -79,9 +104,9 @@ class Money {
             currency = amount.currency;
             amount = amount.amount;
         }
-        if (lodash_1.isString(currency))
+        if (typeof currency === 'string')
             currency = getCurrencyObject(currency);
-        if (!lodash_1.isPlainObject(currency))
+        if (!isPlainObject(currency))
             throw new TypeError('Invalid currency');
         if (rounder === undefined) {
             let decimals = decimalPlaces(amount);
@@ -93,7 +118,7 @@ class Money {
         else {
             if (['round', 'floor', 'ceil'].indexOf(rounder) === -1 && typeof rounder !== 'function')
                 throw new TypeError('Invalid parameter rounder');
-            if (lodash_1.isString(rounder))
+            if (typeof rounder === 'string')
                 rounder = Math[rounder];
         }
         let precisionMultiplier = Math.pow(10, currency.decimal_digits);
@@ -145,7 +170,7 @@ class Money {
      * @returns {Money}
      */
     multiply(multiplier, fn) {
-        if (!lodash_1.isFunction(fn))
+        if (typeof fn !== 'function')
             fn = Math.round;
         assertOperand(multiplier);
         let amount = fn(this.amount * multiplier);
@@ -159,7 +184,7 @@ class Money {
      * @returns {Money}
      */
     divide(divisor, fn) {
-        if (!lodash_1.isFunction(fn))
+        if (typeof fn !== 'function')
             fn = Math.round;
         assertOperand(divisor);
         let amount = fn(this.amount / divisor);
