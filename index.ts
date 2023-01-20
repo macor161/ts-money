@@ -1,4 +1,3 @@
-import { isFunction, isNaN, isObject, isPlainObject, isString } from 'lodash'
 import { Currency } from './lib/currency'
 import { Currencies } from './lib/currencies'
 
@@ -34,7 +33,7 @@ let assertType = function (other) {
 }
 
 let assertOperand = function (operand) {
-    if (isNaN(parseFloat(operand)) && !isFinite(operand))
+    if (Number.isNaN(parseFloat(operand)) && !isFinite(operand))
         throw new TypeError('Operand must be a number')
 }
 
@@ -52,8 +51,38 @@ let getCurrencyObject = function (currency: string): Currency {
     }
 }
 
+let isObjectLike = (value: any): boolean => {
+    return value !== null && typeof value === 'object'
+}
+
+let isObject = (value: any): boolean => {
+    const type = typeof value
+    return value != null && (type === 'object' || type === 'function')
+}
+
+let getTag = (value: any): string => {
+  if (value == null) {
+    return value === undefined ? '[object Undefined]' : '[object Null]'
+  }
+  return toString.call(value)
+}
+
+let isPlainObject = (value: any): boolean => {
+    if (!isObjectLike(value) || getTag(value) != '[object Object]') {
+        return false
+    }
+    if (Object.getPrototypeOf(value) === null) {
+        return true
+    }
+    let proto = value
+    while (Object.getPrototypeOf(proto) !== null) {
+        proto = Object.getPrototypeOf(proto)
+    }
+    return Object.getPrototypeOf(value) === proto
+}
+
 function isAmountObject(amount: number | Amount): amount is Amount {
-    return isObject(amount);
+    return isObject(amount)
 }
 
 class Money {
@@ -72,7 +101,7 @@ class Money {
      * @constructor
      */
     constructor(amount: number, currency: Currency | string) {
-        if (isString(currency))
+        if (typeof currency === 'string')
             currency = getCurrencyObject(currency)
 
         if (!isPlainObject(currency))
@@ -115,7 +144,7 @@ class Money {
             amount = amount.amount
         }
 
-        if (isString(currency))
+        if (typeof currency === 'string')
             currency = getCurrencyObject(currency)
 
         if (!isPlainObject(currency))
@@ -133,7 +162,7 @@ class Money {
             if (['round', 'floor', 'ceil'].indexOf(rounder as string) === -1 && typeof rounder !== 'function')
                 throw new TypeError('Invalid parameter rounder')
 
-            if (isString(rounder))
+            if (typeof rounder === 'string')
                 rounder = Math[rounder]
         }
 
@@ -195,7 +224,7 @@ class Money {
      * @returns {Money}
      */
     multiply(multiplier: number, fn?: Function): Money {
-        if (!isFunction(fn))
+        if (typeof fn !== 'function')
             fn = Math.round
 
         assertOperand(multiplier)
@@ -212,7 +241,7 @@ class Money {
      * @returns {Money}
      */
     divide(divisor: number, fn?: Function): Money {
-        if (!isFunction(fn))
+        if (typeof fn !== 'function')
             fn = Math.round
 
         assertOperand(divisor)

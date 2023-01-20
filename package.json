@@ -22,11 +22,8 @@
   "bugs": {
     "url": "https://github.com/macor161/ts-money/issues"
   },
-  "dependencies": {
-    "lodash": "^4.17.5"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/lodash": "^4.14.64",
     "@types/node": "^7.0.23",
     "chai": "1.x.x",
     "mocha": "^10.0.0",
