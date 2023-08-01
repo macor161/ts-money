@@ -18,7 +18,8 @@ declare class Money {
      * @constructor
      */
     constructor(amount: number, currency: Currency | string);
-    static fromInteger(amount: number | Amount, currency?: Currency | string): Money;
+    static fromInteger(amount: Amount): Money;
+    static fromInteger(amount: number, currency: Currency | string): Money;
     static fromDecimal(amount: Amount, rounder?: Rounder): Money;
     static fromDecimal(amount: number, currency: string | Currency, rounder?: Rounder): Money;
     /**
