@@ -1,27 +1,15 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "rootDir": "./",
-        "outDir": "./build/",
-        "module": "commonjs",
-        "declaration": true,
-        "noImplicitAny": false,
-        "removeComments": false,
-        "moduleResolution": "node",
-        "sourceMap": false,
-        "inlineSources": false,
-        "baseUrl": ".",
-        "paths": {
-            "*": ["*"]
-        },
-        "typeRoots": [
-        ],
-        "types": ["node"]
-    },
-    "include": [
-        "index.ts"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
-}
+      "target": "ESNext",
+      "lib": ["ESNext"],
+      "module": "ESNext",
+      "moduleResolution": "Bundler",
+      "resolveJsonModule": true,
+      "strict": true,
+      "strictNullChecks": true,
+      "noEmit": true,
+      "esModuleInterop": true,
+      "skipDefaultLibCheck": true,
+      "skipLibCheck": true
+    }
+  }

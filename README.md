@@ -1,32 +1,41 @@
-# TS Money
+# @screeny05/ts-money
 
-[![NPM version](https://img.shields.io/npm/v/ts-money.svg)](https://www.npmjs.com/package/ts-money)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![](https://img.shields.io/npm/dm/ts-money.svg?style=flat-square)](https://www.npmjs.com/package/ts-money)
-[![](https://img.shields.io/npm/dt/ts-money.svg?style=flat-square)](https://www.npmjs.com/package/ts-money)
+[![NPM version](https://img.shields.io/npm/v/@screeny05/ts-money.svg?style=flat-square)](https://www.npmjs.com/package/@screeny05/ts-money)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![](https://img.shields.io/npm/dm/@screeny05/ts-money.svg?style=flat-square)](https://www.npmjs.com/package/@screeny05/ts-money)
+[![](https://deno.bundlejs.com/?q=@screeny05/ts-money&badge&badge-style=flat-square)](https://bundlejs.com/?q=%40screeny05%2Fts-money)
 
-
-TS Money is a Typescript port of the great [js-money](https://www.npmjs.com/package/js-money) package, which is an implementation of Martin Fowlers [Money pattern](http://martinfowler.com/eaaCatalog/money.html). 
+TS Money is a Typescript port of the great [js-money](https://www.npmjs.com/package/js-money) package, which is an implementation of Martin Fowlers [Money pattern](http://martinfowler.com/eaaCatalog/money.html).
 
 ## Install
 
 ```sh
-npm install ts-money
+npm install @screeny05/ts-money
 ```
 
+## Differences from original [ts-money](https://github.com/macor161/ts-money)
+
+- Currencies are now exported in a standalone object.
+- Fixed bug with allocate method when a single allocation is zero. (thanks to [@dotpack](https://github.com/dotpack), see [PR #5](https://github.com/macor161/ts-money/pull/5))
+- Drastically reduced bundle-size by getting rid of lodash and removing unnecessary currency-data.
+  - Instead of using currency-data like currency-name, symbols, etc. from this package you should rely on either your environments [Intl.DisplayNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames) API or the [currency-codes](https://www.npmjs.com/package/currency-codes) package.
+- Added `Money.from(amount: Amount)` as shortcut for `Money.fromInteger(amount: Amount)`
+- Added `Money#fractionOf()` and `Money#percentageOf()` (see [below](#basic-arithmetics))
+- Migrated package to vitest and unbuild.
+- Throws a more descriptive error when dividing by zero.
 
 ## Usage
 
 First we need to import the library.
 
 ```typescript
-import { Money, Currencies } from 'ts-money'
+import { Money, Currencies } from '@screeny05/ts-money'
 ```
 
 or in javascript:
 
 ```javascript
-const TsMoney = require('ts-money')
+const TsMoney = require('@screeny05/ts-money')
 const Money = TsMoney.Money
 const Currencies = TsMoney.Currencies
 ```
@@ -34,9 +43,10 @@ const Currencies = TsMoney.Currencies
 ### Creating a new instance
 
 There are multiple options of what to pass into the constructor to create a new Money instance:
-* amount as number, currency as string
-* amount as number, currency as object
-* object with amount and currency fields (only with `fromInteger` and `fromDecimal` methods)
+
+- amount as number, currency as string
+- amount as number, currency as object
+- object with amount and currency fields (only with `fromInteger` and `fromDecimal` methods)
 
 Amounts can be supplied either as integers or decimal numbers.
 
@@ -59,29 +69,19 @@ The `Currency` interface hold the following properties:
 
 ```typescript
 interface Currency {
-    symbol: string
-    name: string
-    symbol_native: string
-    decimal_digits: number
-    rounding: number
-    code: string
-    name_plural: string
+  decimal_digits: number
+  code: string
 }
 ```
 
 Ex:
 
 ```typescript
-import { Currency } from 'ts-money'
+import { Currency } from '@screeny05/ts-money'
 
 const usd: Currency = {
-    "symbol": "$",
-    "name": "US Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "USD",
-    "name_plural": "US dollars"
+  decimal_digits: 2,
+  code: 'USD',
 }
 ```
 
@@ -95,34 +95,41 @@ const fiveEur = new Money(500, Currencies.EUR) // 5 EUR
 // add
 fiveEur.add(new Money(250, Currencies.EUR)) // 7.50 EUR
 
-// subtract 
+// subtract
 fiveEur.subtract(new Money(470, Currencies.EUR)) // 0.30 EUR
 
 // multiply
 fiveEur.multiply(1.2345) // 6.17 EUR
 fiveEur.multiply(1.2345, Math.ceil) // 6.18 EUR
 
-// divide 
+// divide
 fiveEur.divide(2.3456) // 2.13 EUR
 fiveEur.divide(2.3456, Math.ceil) // 2.14 EUR
+
+// fraction calculation
+fiveEur.fractionOf(new Money(750, Currencies.EUR)) // 0.6667
+
+// percentage calculation (same as fraction but with rounding and precision)
+fiveEur.percentageOf(new Money(750, Currencies.EUR)) // 67
+fiveEur.percentageOf(new Money(750, Currencies.EUR), 2) // 66.67
+fiveEur.percentageOf(new Money(750, Currencies.EUR), 2, 'floor') // 66.66
 ```
 
 ### Allocating funds
 
-Will divide the funds based on the ratio without loosing any pennies. 
+Will divide the funds based on the ratio without losing any pennies.
 
 ```typescript
 const tenEur = new Money(1000, Currencies.EUR)
 
 // divide 10 EUR into 3 parts
-const shares = tenEur.allocate([1,1,1]) 
+const shares = tenEur.allocate([1, 1, 1])
 // returns an array of Money instances worth [334,333,333]
 
 // split 5 EUR 70/30
 const fiveEur = new Money(500, Currencies.EUR)
-const shares = fiveEur.allocate([70,30])
+const shares = fiveEur.allocate([70, 30])
 // returns an array of money [350,150]
-
 ```
 
 ### Comparison and equality
@@ -151,7 +158,6 @@ fiveEur.lessThan(sevenEur) // return true
 fiveEur.lessThanOrEqual(fiveEur) // return true
 ```
 
-
 ## Modifications
 
 Some changes have been made compared with the javascript version:
@@ -161,22 +167,16 @@ Some changes have been made compared with the javascript version:
 Currencies are now exported in a standalone object:
 
 ```typescript
-import { Money, Currencies } from 'ts-money'
+import { Money, Currencies } from '@screeny05/ts-money'
 
 Currencies.LTC = {
-    symbol: "Ł",
-    name: "Litecoin",
-    symbol_native: "Ł",
-    decimal_digits: 8,
-    rounding: 0,
-    code: "LTC",
-    name_plural: "Litecoins"    
+  decimal_digits: 8,
+  code: 'LTC',
 }
 
 const m1 = new Money(12, 'LTC')
 const m2 = new Money(234, Currencies.USD)
 const m3 = new Money(543, Currencies.LTC)
-
 ```
 
 ### Case insensitive currencies
@@ -208,21 +208,6 @@ npm run build
 ```sh
 npm test
 ```
-
-## 🎁 Thank you for your donations 
-
-> TS Money is an **open source** library and is completely **free** to use. 
-> 
-> If you find this project useful and would like to support its development, consider making a donation. 
-
-
-[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/1A71NTVtocr1WG6qFuQjhbVsEwXC7pKB5R)](https://en.cryptobadges.io/donate/1A71NTVtocr1WG6qFuQjhbVsEwXC7pKB5R)
-
-[![Donate with Ethereum](https://en.cryptobadges.io/badge/big/0x5cE72fB54733a15640AD23f8c8c296AadEeC53Cb)](https://en.cryptobadges.io/donate/0x5cE72fB54733a15640AD23f8c8c296AadEeC53Cb)
-
-[![Donate with Monero](https://en.cryptobadges.io/badge/big/4AzAgF56m5ihvDR5ctPVUE1RH78JEMsBHc63yYokHXbYGUCWsxphsmsgKzUkoQKmk7Tv6CSr3MosZ1wTR1wfHGt2187nHgj)](https://en.cryptobadges.io/donate/4AzAgF56m5ihvDR5ctPVUE1RH78JEMsBHc63yYokHXbYGUCWsxphsmsgKzUkoQKmk7Tv6CSr3MosZ1wTR1wfHGt2187nHgj)
-
-
 
 ## License
 

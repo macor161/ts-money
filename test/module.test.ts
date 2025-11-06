@@ -1,14 +1,15 @@
-let { Money, Currencies } = require('../build/')
+import { describe, expect, it } from 'vitest'
+import { Money, Currencies } from '../src/index'
 
 
-describe('js-money', () => {
+describe('ts-money', () => {
 
     it('should export Money constructor', () => {
         expect(Money).to.be.a('function')
     })
 
     it('should export currencies', () => {
-        expect(Money.EUR).to.be.a('object')
+        expect(Currencies.EUR).to.be.a('object')
     })
 
     it('should export factory methods', () => {
